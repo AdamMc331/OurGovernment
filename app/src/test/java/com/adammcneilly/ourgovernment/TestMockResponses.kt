@@ -1,6 +1,7 @@
 package com.adammcneilly.ourgovernment
 
 import com.adammcneilly.ourgovernment.models.BaseStateList
+import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.State
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
@@ -30,6 +31,7 @@ class TestMockResponses {
         api.registerMockResponse(GET_STATE_IDS_PATH, BaseStateList())
         api.registerMockResponse(GET_STATE_PATH, State())
         api.registerMockResponse(GET_COUNTIES_PATH, CountyList())
+        api.registerMockResponse(GET_CITIES_PATH, CityList())
     }
 
     @After
@@ -122,9 +124,37 @@ class TestMockResponses {
         assertEquals("Allegan County", countyList!!.list[2].name)
     }
 
+    @Test
+    fun testGetCities() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
+
+        val countdown = CountDownLatch(1)
+        var cityList: CityList? = null
+
+        val call = api.getCities("MI")
+        call.enqueue(object : Callback<CityList>{
+            override fun onFailure(call: Call<CityList>?, t: Throwable?) {
+                countdown.countDown()
+            }
+
+            override fun onResponse(call: Call<CityList>?, response: Response<CityList>?) {
+                cityList = response!!.body()
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        assertNotNull(cityList)
+        assertEquals(3, cityList!!.list.size)
+        assertEquals("Allen Park", cityList!!.list[0].name)
+        assertEquals("Ann Arbor", cityList!!.list[1].name)
+        assertEquals("Battle Creek", cityList!!.list[2].name)
+    }
+
     companion object {
         val GET_STATE_IDS_PATH = "/State.getStateIDs"
         val GET_STATE_PATH = "/State.getState"
         val GET_COUNTIES_PATH = "/Local.getCounties"
+        val GET_CITIES_PATH = "/Local.getCities"
     }
 }

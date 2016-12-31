@@ -1,6 +1,7 @@
 package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.BaseStateList
+import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.State
 import retrofit2.Call
@@ -21,4 +22,7 @@ interface VSService {
 
     @GET("Local.getCounties")
     fun getCounties(@Query("stateId") stateId: String): Call<CountyList>
+
+    @GET("Local.getCities")
+    fun getCities(@Query("stateId") stateId: String): Call<CityList>
 }

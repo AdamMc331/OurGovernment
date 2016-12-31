@@ -4,6 +4,7 @@ import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.BaseStateList
+import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.State
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -57,5 +58,9 @@ class VSApi {
 
     fun getCounties(stateId: String): Call<CountyList> {
         return VSApi.getCounties(stateId)
+    }
+
+    fun getCities(stateId: String): Call<CityList> {
+        return VSApi.getCities(stateId)
     }
 }
