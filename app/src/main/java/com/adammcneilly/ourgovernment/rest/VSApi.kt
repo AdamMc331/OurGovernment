@@ -2,10 +2,7 @@ package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
-import com.adammcneilly.ourgovernment.models.CountyList
-import com.adammcneilly.ourgovernment.models.BaseStateList
-import com.adammcneilly.ourgovernment.models.CityList
-import com.adammcneilly.ourgovernment.models.State
+import com.adammcneilly.ourgovernment.models.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -48,6 +45,7 @@ class VSApi {
         mockInterceptor.mockResponses.put(path, model)
     }
 
+    //region State
     fun getStateIDs(): Call<BaseStateList> {
         return VSApi.getStateIDs()
     }
@@ -55,7 +53,9 @@ class VSApi {
     fun getState(stateId: String): Call<State> {
         return VSApi.getState(stateId)
     }
+    //endregion
 
+    //region Local
     fun getCounties(stateId: String): Call<CountyList> {
         return VSApi.getCounties(stateId)
     }
@@ -63,4 +63,9 @@ class VSApi {
     fun getCities(stateId: String): Call<CityList> {
         return VSApi.getCities(stateId)
     }
+
+    fun getLocalOfficials(localId: String): Call<CandidateList> {
+        return VSApi.getLocalOfficials(localId)
+    }
+    //endregion
 }

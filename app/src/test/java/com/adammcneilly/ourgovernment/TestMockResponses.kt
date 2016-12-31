@@ -1,9 +1,6 @@
 package com.adammcneilly.ourgovernment
 
-import com.adammcneilly.ourgovernment.models.BaseStateList
-import com.adammcneilly.ourgovernment.models.CityList
-import com.adammcneilly.ourgovernment.models.CountyList
-import com.adammcneilly.ourgovernment.models.State
+import com.adammcneilly.ourgovernment.models.*
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import com.adammcneilly.ourgovernment.rest.VSApi
 import junit.framework.TestCase.assertEquals
@@ -32,6 +29,7 @@ class TestMockResponses {
         api.registerMockResponse(GET_STATE_PATH, State())
         api.registerMockResponse(GET_COUNTIES_PATH, CountyList())
         api.registerMockResponse(GET_CITIES_PATH, CityList())
+        api.registerMockResponse(GET_LOCAL_OFFICIALS_PATH, CandidateList())
     }
 
     @After
@@ -39,6 +37,7 @@ class TestMockResponses {
         api.setApiMode(MockInterceptor.APIMode.LIVE)
     }
 
+    //region State
     @Test
     fun testGetStateIDs() {
         api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
@@ -95,7 +94,9 @@ class TestMockResponses {
         assertEquals("Lansing", state!!.details.capital)
         assertEquals("Sixth", state!!.details.usCircuit)
     }
+    //endregion
 
+    //region Local
     @Test
     fun testGetCounties() {
         api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
@@ -131,7 +132,7 @@ class TestMockResponses {
         val countdown = CountDownLatch(1)
         var cityList: CityList? = null
 
-        val call = api.getCities("MI")
+        val call = api.getCities("")
         call.enqueue(object : Callback<CityList>{
             override fun onFailure(call: Call<CityList>?, t: Throwable?) {
                 countdown.countDown()
@@ -151,10 +152,40 @@ class TestMockResponses {
         assertEquals("Battle Creek", cityList!!.list[2].name)
     }
 
+    @Test
+    fun testGetOfficials() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
+
+        val countdown = CountDownLatch(1)
+        var candidateList: CandidateList? = null
+
+        val call = api.getLocalOfficials("")
+        call.enqueue(object : Callback<CandidateList> {
+            override fun onFailure(call: Call<CandidateList>?, t: Throwable?) {
+                t?.printStackTrace()
+                countdown.countDown()
+            }
+
+            override fun onResponse(call: Call<CandidateList>?, response: Response<CandidateList>?) {
+                candidateList = response!!.body()
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        assertNotNull(candidateList)
+        assertEquals(1, candidateList!!.list.size)
+        assertEquals("James", candidateList!!.list[0].firstName)
+        assertEquals("R.", candidateList!!.list[0].middleName)
+        assertEquals("Fouts", candidateList!!.list[0].lastName)
+    }
+    //endregion
+
     companion object {
         val GET_STATE_IDS_PATH = "/State.getStateIDs"
         val GET_STATE_PATH = "/State.getState"
         val GET_COUNTIES_PATH = "/Local.getCounties"
         val GET_CITIES_PATH = "/Local.getCities"
+        val GET_LOCAL_OFFICIALS_PATH = "/Local.getOfficials"
     }
 }
