@@ -1,6 +1,7 @@
 package com.adammcneilly.ourgovernment
 
 import com.adammcneilly.ourgovernment.models.BaseStateList
+import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.State
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import com.adammcneilly.ourgovernment.rest.VSApi
@@ -28,6 +29,7 @@ class TestMockResponses {
     fun setup() {
         api.registerMockResponse(GET_STATE_IDS_PATH, BaseStateList())
         api.registerMockResponse(GET_STATE_PATH, State())
+        api.registerMockResponse(GET_COUNTIES_PATH, CountyList())
     }
 
     @After
@@ -92,8 +94,37 @@ class TestMockResponses {
         assertEquals("Sixth", state!!.details.usCircuit)
     }
 
+    @Test
+    fun testGetCounties() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
+
+        val countdown = CountDownLatch(1)
+        var countyList: CountyList? = null
+
+        val call = api.getCounties("MI")
+        call.enqueue(object : Callback<CountyList>{
+            override fun onFailure(call: Call<CountyList>?, t: Throwable?) {
+                countdown.countDown()
+            }
+
+            override fun onResponse(call: Call<CountyList>?, response: Response<CountyList>?) {
+                countyList = response!!.body()
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
+        assertNotNull(countyList)
+        assertEquals(3, countyList!!.list.size)
+        assertEquals("Alcona County", countyList!!.list[0].name)
+        assertEquals("Alger County", countyList!!.list[1].name)
+        assertEquals("Allegan County", countyList!!.list[2].name)
+    }
+
     companion object {
         val GET_STATE_IDS_PATH = "/State.getStateIDs"
         val GET_STATE_PATH = "/State.getState"
+        val GET_COUNTIES_PATH = "/Local.getCounties"
     }
 }
