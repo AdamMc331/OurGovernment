@@ -107,6 +107,7 @@ class TestMockResponses {
         val call = api.getCounties("MI")
         call.enqueue(object : Callback<CountyList>{
             override fun onFailure(call: Call<CountyList>?, t: Throwable?) {
+                t?.printStackTrace()
                 countdown.countDown()
             }
 
@@ -123,6 +124,33 @@ class TestMockResponses {
         assertEquals("Alcona County", countyList!!.list[0].name)
         assertEquals("Alger County", countyList!!.list[1].name)
         assertEquals("Allegan County", countyList!!.list[2].name)
+    }
+
+    @Test
+    fun testGetCountiesError() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_ERROR)
+
+        val countdown = CountDownLatch(1)
+        var error: Error? = null
+
+        val call = api.getCounties("MI")
+        call.enqueue(object : Callback<CountyList>{
+            override fun onFailure(call: Call<CountyList>?, t: Throwable?) {
+                t?.printStackTrace()
+                countdown.countDown()
+            }
+
+            override fun onResponse(call: Call<CountyList>?, response: Response<CountyList>?) {
+                // We're assuming error body
+                error = Error.parseError(response)
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
+        assertNotNull(error)
+        assertEquals("This probably shouldn't have happened.", error!!.errorMessage)
     }
 
     @Test

@@ -18,6 +18,7 @@ class VSApi {
     private val VSApi: VSService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
+    val retrofit: Retrofit
 
     init {
         if (BuildConfig.DEBUG) loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -28,7 +29,7 @@ class VSApi {
                 .addInterceptor(ApiKeyInterceptor())
                 .build()
 
-        val retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .baseUrl("http://api.votesmart.org/")
                 .client(client)

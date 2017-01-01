@@ -37,4 +37,11 @@ open class CountyList() : BaseModel() {
                     "</county>" +
                 "</counties>")
     }
+
+    override fun getFailureXml(): List<String> {
+        return listOf(
+                "<error>" +
+                    "<errorMessage>This probably shouldn't have happened.</errorMessage>" +
+                "</error>")
+    }
 }
