@@ -1,5 +1,6 @@
 package com.adammcneilly.ourgovernment.models
 
+import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import java.util.*
@@ -10,8 +11,8 @@ import java.util.*
  * Created by adam.mcneilly on 12/26/16.
  */
 @Root(strict=false)
-open class BaseStateList() : BaseModel() {
-    @field:ElementList var list: ArrayList<BaseState> = ArrayList()
+open class StateList : BaseModel() {
+    @field:ElementList var list: ArrayList<StateList.State> = ArrayList()
 
     override fun getSuccessXml(): List<String> {
         return listOf(
@@ -35,5 +36,15 @@ open class BaseStateList() : BaseModel() {
                         "</state>" +
                     "</list>" +
                 "</stateList>")
+    }
+
+    @Root(strict=false)
+    open class State : BaseModel() {
+        @field:Element var stateId: String = ""
+        @field:Element var name: String = ""
+
+        override fun toString(): String {
+            return name
+        }
     }
 }

@@ -47,7 +47,7 @@ class VSApi {
     }
 
     //region State
-    fun getStateIDs(): Call<BaseStateList> {
+    fun getStateIDs(): Call<StateList> {
         return VSApi.getStateIDs()
     }
 

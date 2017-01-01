@@ -25,7 +25,7 @@ class TestMockResponses {
 
     @Before
     fun setup() {
-        api.registerMockResponse(GET_STATE_IDS_PATH, BaseStateList())
+        api.registerMockResponse(GET_STATE_IDS_PATH, StateList())
         api.registerMockResponse(GET_STATE_PATH, State())
         api.registerMockResponse(GET_COUNTIES_PATH, CountyList())
         api.registerMockResponse(GET_CITIES_PATH, CityList())
@@ -43,15 +43,16 @@ class TestMockResponses {
         api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
 
         val countdown = CountDownLatch(1)
-        var baseStateList: BaseStateList? = null
+        var baseStateList: StateList? = null
 
         val call = api.getStateIDs()
-        call.enqueue(object : Callback<BaseStateList> {
-            override fun onFailure(call: Call<BaseStateList>?, t: Throwable?) {
+        call.enqueue(object : Callback<StateList> {
+            override fun onFailure(call: Call<StateList>?, t: Throwable?) {
+                t?.printStackTrace()
                 countdown.countDown()
             }
 
-            override fun onResponse(call: Call<BaseStateList>?, response: Response<BaseStateList>?) {
+            override fun onResponse(call: Call<StateList>?, response: Response<StateList>?) {
                 baseStateList = response!!.body()
                 countdown.countDown()
             }
@@ -163,6 +164,7 @@ class TestMockResponses {
         val call = api.getCities("")
         call.enqueue(object : Callback<CityList>{
             override fun onFailure(call: Call<CityList>?, t: Throwable?) {
+                t?.printStackTrace()
                 countdown.countDown()
             }
 

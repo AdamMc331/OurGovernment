@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface VSService {
     //region State
     @GET("State.getStateIDs")
-    fun getStateIDs(): Call<BaseStateList>
+    fun getStateIDs(): Call<StateList>
 
     @GET("State.getState")
     fun getState(@Query("stateId") stateId: String): Call<State>
