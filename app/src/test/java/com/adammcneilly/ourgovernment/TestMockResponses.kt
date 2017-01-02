@@ -3,8 +3,7 @@ package com.adammcneilly.ourgovernment
 import com.adammcneilly.ourgovernment.models.*
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import com.adammcneilly.ourgovernment.rest.VSApi
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNotNull
+import junit.framework.TestCase.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -30,6 +29,7 @@ class TestMockResponses {
         api.registerMockResponse(GET_COUNTIES_PATH, CountyList())
         api.registerMockResponse(GET_CITIES_PATH, CityList())
         api.registerMockResponse(GET_LOCAL_OFFICIALS_PATH, CandidateList())
+        api.registerMockResponse(GET_BIO_PATH, CandidateBio())
     }
 
     @After
@@ -53,7 +53,7 @@ class TestMockResponses {
             }
 
             override fun onResponse(call: Call<StateList>?, response: Response<StateList>?) {
-                baseStateList = response!!.body()
+                baseStateList = response?.body()
                 countdown.countDown()
             }
         })
@@ -77,7 +77,7 @@ class TestMockResponses {
         val call = api.getState("MI")
         call.enqueue(object: Callback<State> {
             override fun onResponse(call: Call<State>?, response: Response<State>?) {
-                state = response!!.body()
+                state = response?.body()
                 countdown.countDown()
             }
 
@@ -113,7 +113,7 @@ class TestMockResponses {
             }
 
             override fun onResponse(call: Call<CountyList>?, response: Response<CountyList>?) {
-                countyList = response!!.body()
+                countyList = response?.body()
                 countdown.countDown()
             }
         })
@@ -169,7 +169,7 @@ class TestMockResponses {
             }
 
             override fun onResponse(call: Call<CityList>?, response: Response<CityList>?) {
-                cityList = response!!.body()
+                cityList = response?.body()
                 countdown.countDown()
             }
         })
@@ -197,7 +197,7 @@ class TestMockResponses {
             }
 
             override fun onResponse(call: Call<CandidateList>?, response: Response<CandidateList>?) {
-                candidateList = response!!.body()
+                candidateList = response?.body()
                 countdown.countDown()
             }
         })
@@ -211,11 +211,43 @@ class TestMockResponses {
     }
     //endregion
 
+    //region Candidate
+    @Test
+    fun testGetBio() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
+
+        val countdown = CountDownLatch(1)
+        var candidateBio: CandidateBio? = null
+
+        val call = api.getBio("")
+        call.enqueue(object : Callback<CandidateBio>{
+            override fun onResponse(call: Call<CandidateBio>?, response: Response<CandidateBio>?) {
+                candidateBio = response?.body()
+                countdown.countDown()
+            }
+
+            override fun onFailure(call: Call<CandidateBio>?, t: Throwable?) {
+                t?.printStackTrace()
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        assertNotNull(candidateBio)
+        assertEquals("James", candidateBio!!.candidate.firstName)
+        assertEquals("R.", candidateBio!!.candidate.middleName)
+        assertEquals("Fouts", candidateBio!!.candidate.lastName)
+        assertEquals("Mayor", candidateBio!!.office.name)
+        assertTrue(candidateBio!!.election.ballotName.isEmpty())
+    }
+    //endregion
+
     companion object {
         val GET_STATE_IDS_PATH = "/State.getStateIDs"
         val GET_STATE_PATH = "/State.getState"
         val GET_COUNTIES_PATH = "/Local.getCounties"
         val GET_CITIES_PATH = "/Local.getCities"
         val GET_LOCAL_OFFICIALS_PATH = "/Local.getOfficials"
+        val GET_BIO_PATH = "/Candidate.getBio"
     }
 }

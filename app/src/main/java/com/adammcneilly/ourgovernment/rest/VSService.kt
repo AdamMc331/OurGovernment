@@ -29,4 +29,9 @@ interface VSService {
     @GET("Local.getOfficials")
     fun getLocalOfficials(@Query("localId") localId: String): Call<CandidateList>
     //endregion
+
+    //region Candidate
+    @GET("Candidate.getBio")
+    fun getBio(@Query("candidateId") candidateId: String): Call<CandidateBio>
+    //endregion
 }

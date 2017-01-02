@@ -8,6 +8,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import org.simpleframework.xml.core.Persister
+import org.simpleframework.xml.convert.AnnotationStrategy
+import org.simpleframework.xml.strategy.Strategy
+
+
 
 /**
  * API calls run through here for VoteSmart.
@@ -29,8 +34,11 @@ class VSApi {
                 .addInterceptor(ApiKeyInterceptor())
                 .build()
 
+        val strategy = AnnotationStrategy()
+        val serializer = Persister(strategy)
+
         retrofit = Retrofit.Builder()
-                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
                 .baseUrl("http://api.votesmart.org/")
                 .client(client)
                 .build()
@@ -67,6 +75,12 @@ class VSApi {
 
     fun getLocalOfficials(localId: String): Call<CandidateList> {
         return VSApi.getLocalOfficials(localId)
+    }
+    //endregion
+
+    //region Candidate
+    fun getBio(candidateId: String): Call<CandidateBio> {
+        return VSApi.getBio(candidateId)
     }
     //endregion
 }
