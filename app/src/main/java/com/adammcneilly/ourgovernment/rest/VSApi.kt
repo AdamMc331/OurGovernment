@@ -3,6 +3,7 @@ package com.adammcneilly.ourgovernment.rest
 import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
 import com.adammcneilly.ourgovernment.models.*
+import com.adammcneilly.ourgovernment.year
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -11,7 +12,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import org.simpleframework.xml.core.Persister
 import org.simpleframework.xml.convert.AnnotationStrategy
 import org.simpleframework.xml.strategy.Strategy
-
+import java.util.*
 
 
 /**
@@ -78,9 +79,20 @@ class VSApi {
     }
     //endregion
 
-    //region Candidate
+    //region CandidateBio
     fun getBio(candidateId: String): Call<CandidateBio> {
         return VSApi.getBio(candidateId)
     }
+    //endregion
+
+    //region Candidates
+    fun getByOfficeState(officeId: String, stateId: String): Call<CandidateList> {
+        return getByOfficeState(officeId, stateId, Date().year().toString(), "")
+    }
+
+    fun getByOfficeState(officeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
+        return VSApi.getByOfficeState(officeId, stateId, electionYear, stageId)
+    }
+    //officeId*, stateId(default: 'NA'), electionYear(default: >= current year), stageId
     //endregion
 }

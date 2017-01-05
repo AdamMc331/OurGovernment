@@ -30,8 +30,17 @@ interface VSService {
     fun getLocalOfficials(@Query("localId") localId: String): Call<CandidateList>
     //endregion
 
-    //region Candidate
+    //region CandidateBio
     @GET("Candidate.getBio")
     fun getBio(@Query("candidateId") candidateId: String): Call<CandidateBio>
+    //endregion
+
+    //region Candidates
+    @GET("Candidates.getByOfficeState")
+    fun getByOfficeState(
+            @Query("officeId") officeId: String,
+            @Query("stateId") stateId: String,
+            @Query("electionYear") electionYear: String,
+            @Query("stageId") stageId: String): Call<CandidateList>
     //endregion
 }
