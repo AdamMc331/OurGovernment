@@ -14,9 +14,15 @@ import org.simpleframework.xml.stream.OutputNode
  */
 @Root(strict=false)
 class CandidateBio : BaseModel() {
+    // First three elements are used in getBio. Others are for getDetailedBio.
     @field:Element var candidate = CandidateBio.Candidate()
     @field:Element var office = CandidateBio.Office()
     @field:Element(required=false) var election = CandidateBio.Election()
+    @field:Element(required=false) var education = CandidateBio.Education()
+    @field:Element(required=false) var profession = CandidateBio.Profession()
+    @field:Element(required=false) var political = CandidateBio.Profession()
+    @field:Element(required=false) var congMembership = CandidateBio.Profession()
+    @field:Element(required=false) var orgMembership = CandidateBio.Profession()
 
     override fun getSuccessXml(): List<String> {
         return listOf(
@@ -203,5 +209,25 @@ class CandidateBio : BaseModel() {
         @field:Element(required=false) var districtId = 0
         @field:Element(required=false) var status = ""
         @field:Element(required=false) var ballotName = ""
+    }
+
+    @Root(strict=false)
+    open class Education {
+        @field:Element(required=false) var degree = ""
+        @field:Element(required=false) var field = ""
+        @field:Element(required=false) var school = ""
+        @field:Element(required=false) var span = ""
+        @field:Element(required=false) var gpa = ""
+        @field:Element(required=false) var fullText = ""
+    }
+
+    @Root(strict=false)
+    open class Profession {
+        @field:Element(required=false) var title = ""
+        @field:Element(required=false) var organization = ""
+        @field:Element(required=false) var span = ""
+        @field:Element(required=false) var special = ""
+        @field:Element(required=false) var district = ""
+        @field:Element(required=false) var fullText = ""
     }
 }
