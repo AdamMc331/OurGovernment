@@ -133,4 +133,10 @@ class VSApi {
         return VSApi.getByZip(zip5, electionYear, zip4, stageId)
     }
     //endregion
+
+    //region Election
+    fun getElection(electionId: String): Call<Election> {
+        return VSApi.getElection(electionId)
+    }
+    //endregion
 }
