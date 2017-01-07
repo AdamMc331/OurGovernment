@@ -117,6 +117,14 @@ class VSApi {
         return VSApi.getByElection(electionId, stageId)
     }
 
+    fun getByDistrict(districtId: String): Call<CandidateList> {
+        return getByDistrict(districtId, Date().year().toString(), "")
+    }
+
+    fun getByDistrict(districtId: String, electionYear: String, stageId: String): Call<CandidateList> {
+        return VSApi.getByDistrict(districtId, electionYear, stageId)
+    }
+
     fun getByZip(zip5: String): Call<CandidateList> {
         return getByZip(zip5, Date().year().toString(), "", "")
     }
