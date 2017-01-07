@@ -78,5 +78,10 @@ interface VSService {
     //region Election
     @GET("Election.getElection")
     fun getElection(@Query("electionId") electionId: String): Call<Election>
+
+    @GET("Election.getElectionByYearState")
+    fun getElectionByYearState(
+            @Query("year") year: String,
+            @Query("stateId") stateId: String): Call<Election>
     //endregion
 }

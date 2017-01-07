@@ -138,5 +138,9 @@ class VSApi {
     fun getElection(electionId: String): Call<Election> {
         return VSApi.getElection(electionId)
     }
+
+    fun getElectionByYearState(year: String, stateId: String): Call<Election> {
+        return VSApi.getElectionByYearState(year, stateId)
+    }
     //endregion
 }
