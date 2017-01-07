@@ -93,6 +93,13 @@ class VSApi {
     fun getByOfficeState(officeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
         return VSApi.getByOfficeState(officeId, stateId, electionYear, stageId)
     }
-    //officeId*, stateId(default: 'NA'), electionYear(default: >= current year), stageId
+
+    fun getByZip(zip5: String): Call<CandidateList> {
+        return getByZip(zip5, Date().year().toString(), "", "")
+    }
+
+    fun getByZip(zip5: String, electionYear: String, zip4: String, stageId: String): Call<CandidateList> {
+        return VSApi.getByZip(zip5, electionYear, zip4, stageId)
+    }
     //endregion
 }
