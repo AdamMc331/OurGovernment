@@ -56,6 +56,11 @@ interface VSService {
             @Query("electionYear") electionYear: String,
             @Query("stageId") stageId: String): Call<CandidateList>
 
+    @GET("Candidates.getByElection")
+    fun getByElection(
+            @Query("electionId") electionId: String,
+            @Query("stageId") stageId: String): Call<CandidateList>
+
     @GET("Candidates.getByZip")
     fun getByZip(
             @Query("zip5") zip5: String,
