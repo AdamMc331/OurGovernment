@@ -6,12 +6,11 @@ import com.adammcneilly.ourgovernment.models.*
 import com.adammcneilly.ourgovernment.year
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.simpleframework.xml.convert.AnnotationStrategy
+import org.simpleframework.xml.core.Persister
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
-import org.simpleframework.xml.core.Persister
-import org.simpleframework.xml.convert.AnnotationStrategy
-import org.simpleframework.xml.strategy.Strategy
 import java.util.*
 
 
@@ -92,6 +91,14 @@ class VSApi {
 
     fun getByOfficeState(officeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
         return VSApi.getByOfficeState(officeId, stateId, electionYear, stageId)
+    }
+
+    fun getByOfficeTypeState(officeTypeId: String, stateId: String): Call<CandidateList> {
+        return getByOfficeTypeState(officeTypeId, stateId, Date().year().toString(), "")
+    }
+
+    fun getByOfficeTypeState(officeTypeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
+        return VSApi.getByOfficeTypeState(officeTypeId, stateId, electionYear, stageId)
     }
 
     fun getByZip(zip5: String): Call<CandidateList> {
