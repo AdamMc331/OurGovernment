@@ -101,6 +101,14 @@ class VSApi {
         return VSApi.getByOfficeTypeState(officeTypeId, stateId, electionYear, stageId)
     }
 
+    fun getByLastName(lastName: String): Call<CandidateList> {
+        return getByLastName(lastName, Date().year().toString(), "")
+    }
+
+    fun getByLastName(lastName: String, electionYear: String, stageId: String): Call<CandidateList> {
+        return VSApi.getByLastName(lastName, electionYear, stageId)
+    }
+
     fun getByZip(zip5: String): Call<CandidateList> {
         return getByZip(zip5, Date().year().toString(), "", "")
     }
