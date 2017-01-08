@@ -23,6 +23,7 @@ class VSApi {
     private val VSApi: VSService
     private val stateService: StateService
     private val localService: LocalService
+    private val candidateBioService: CandidateBioService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
     val retrofit: Retrofit
@@ -48,6 +49,7 @@ class VSApi {
         VSApi = retrofit.create(VSService::class.java)
         stateService = retrofit.create(StateService::class.java)
         localService = retrofit.create(LocalService::class.java)
+        candidateBioService = retrofit.create(CandidateBioService::class.java)
     }
 
     fun setApiMode(apiMode: MockInterceptor.APIMode) {
@@ -84,7 +86,7 @@ class VSApi {
 
     //region CandidateBio
     fun getBio(candidateId: String): Call<CandidateBio> {
-        return VSApi.getBio(candidateId)
+        return candidateBioService.getBio(candidateId)
     }
     //endregion
 
