@@ -11,14 +11,6 @@ import retrofit2.http.Query
  * Created by adam.mcneilly on 12/26/16.
  */
 interface VSService {
-    //region State
-    @GET("State.getStateIDs")
-    fun getStateIDs(): Call<StateList>
-
-    @GET("State.getState")
-    fun getState(@Query("stateId") stateId: String): Call<State>
-    //endregion
-
     //region Local
     @GET("Local.getCounties")
     fun getCounties(@Query("stateId") stateId: String): Call<CountyList>
