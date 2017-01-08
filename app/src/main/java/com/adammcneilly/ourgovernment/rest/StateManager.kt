@@ -9,7 +9,7 @@ import retrofit2.Call
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class StateManager : VSApi() {
+class StateManager : BaseManager() {
     private val stateService: StateService = retrofit.create(StateService::class.java)
 
     fun getStateIDs(): Call<StateList> {

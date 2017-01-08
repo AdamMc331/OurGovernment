@@ -1,6 +1,6 @@
 package com.adammcneilly.ourgovernment.models
 
-import com.adammcneilly.ourgovernment.rest.VSApi
+import com.adammcneilly.ourgovernment.rest.BaseManager
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 import retrofit2.Response
@@ -18,7 +18,7 @@ open class Error {
 
     companion object {
         fun parseError(response: Response<*>?): Error {
-            val api = VSApi()
+            val api = BaseManager()
             val converter = api.retrofit.responseBodyConverter<Error>(Error::class.java, kotlin.arrayOfNulls<Annotation>(0))
 
             var error = Error()

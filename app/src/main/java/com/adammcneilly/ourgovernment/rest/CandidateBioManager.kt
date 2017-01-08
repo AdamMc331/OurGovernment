@@ -8,7 +8,7 @@ import retrofit2.Call
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class CandidateBioManager : VSApi() {
+class CandidateBioManager : BaseManager() {
     val candidateBioService: CandidateBioService = retrofit.create(CandidateBioService::class.java)
 
     fun getBio(candidateId: String): Call<CandidateBio> {

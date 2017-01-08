@@ -11,7 +11,7 @@ import java.util.*
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class CandidateManager : VSApi() {
+class CandidatesManager : BaseManager() {
     val candidatesService: CandidatesService = retrofit.create(CandidatesService::class.java)
 
     fun getByOfficeState(officeId: String, stateId: String): Call<CandidateList> {

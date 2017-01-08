@@ -10,7 +10,7 @@ import retrofit2.Call
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class LocalManager : VSApi() {
+class LocalManager : BaseManager() {
     val localService: LocalService = retrofit.create(LocalService::class.java)
 
     fun getCounties(stateId: String): Call<CountyList> {
