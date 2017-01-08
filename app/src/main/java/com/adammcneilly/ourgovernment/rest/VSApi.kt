@@ -58,12 +58,6 @@ open class VSApi {
         mockInterceptor.mockResponses.put(path, model)
     }
 
-    //region CandidateBio
-    fun getBio(candidateId: String): Call<CandidateBio> {
-        return candidateBioService.getBio(candidateId)
-    }
-    //endregion
-
     //region Candidates
     fun getByOfficeState(officeId: String, stateId: String): Call<CandidateList> {
         return getByOfficeState(officeId, stateId, Date().year().toString())
