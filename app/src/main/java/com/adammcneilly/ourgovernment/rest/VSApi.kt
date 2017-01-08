@@ -20,8 +20,6 @@ import java.util.*
  * Created by adam.mcneilly on 12/26/16.
  */
 open class VSApi {
-    private val candidateBioService: CandidateBioService
-    private val candidatesService: CandidatesService
     private val electionsService: ElectionsService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
@@ -45,8 +43,6 @@ open class VSApi {
                 .client(client)
                 .build()
 
-        candidateBioService = retrofit.create(CandidateBioService::class.java)
-        candidatesService = retrofit.create(CandidatesService::class.java)
         electionsService = retrofit.create(ElectionsService::class.java)
     }
 
@@ -57,52 +53,6 @@ open class VSApi {
     fun registerMockResponse(path: String, model: MockableModel) {
         mockInterceptor.mockResponses.put(path, model)
     }
-
-    //region Candidates
-    fun getByOfficeState(officeId: String, stateId: String): Call<CandidateList> {
-        return getByOfficeState(officeId, stateId, Date().year().toString())
-    }
-
-    fun getByOfficeState(officeId: String, stateId: String, electionYear: String): Call<CandidateList> {
-        return candidatesService.getByOfficeState(officeId, stateId, electionYear)
-    }
-
-    fun getByOfficeTypeState(officeTypeId: String, stateId: String): Call<CandidateList> {
-        return getByOfficeTypeState(officeTypeId, stateId, Date().year().toString())
-    }
-
-    fun getByOfficeTypeState(officeTypeId: String, stateId: String, electionYear: String): Call<CandidateList> {
-        return candidatesService.getByOfficeTypeState(officeTypeId, stateId, electionYear)
-    }
-
-    fun getByLastName(lastName: String): Call<CandidateList> {
-        return getByLastName(lastName, Date().year().toString())
-    }
-
-    fun getByLastName(lastName: String, electionYear: String): Call<CandidateList> {
-        return candidatesService.getByLastName(lastName, electionYear)
-    }
-
-    fun getByElection(electionId: String): Call<CandidateList> {
-        return getByElection(electionId)
-    }
-
-    fun getByDistrict(districtId: String): Call<CandidateList> {
-        return getByDistrict(districtId, Date().year().toString())
-    }
-
-    fun getByDistrict(districtId: String, electionYear: String): Call<CandidateList> {
-        return candidatesService.getByDistrict(districtId, electionYear)
-    }
-
-    fun getByZip(zip5: String): Call<CandidateList> {
-        return getByZip(zip5, Date().year().toString(), "")
-    }
-
-    fun getByZip(zip5: String, electionYear: String, zip4: String): Call<CandidateList> {
-        return candidatesService.getByZip(zip5, electionYear, zip4)
-    }
-    //endregion
 
     //region Election
     fun getElection(electionId: String): Call<Election> {
