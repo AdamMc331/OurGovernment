@@ -86,51 +86,47 @@ class VSApi {
 
     //region Candidates
     fun getByOfficeState(officeId: String, stateId: String): Call<CandidateList> {
-        return getByOfficeState(officeId, stateId, Date().year().toString(), "")
+        return getByOfficeState(officeId, stateId, Date().year().toString())
     }
 
-    fun getByOfficeState(officeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByOfficeState(officeId, stateId, electionYear, stageId)
+    fun getByOfficeState(officeId: String, stateId: String, electionYear: String): Call<CandidateList> {
+        return VSApi.getByOfficeState(officeId, stateId, electionYear)
     }
 
     fun getByOfficeTypeState(officeTypeId: String, stateId: String): Call<CandidateList> {
-        return getByOfficeTypeState(officeTypeId, stateId, Date().year().toString(), "")
+        return getByOfficeTypeState(officeTypeId, stateId, Date().year().toString())
     }
 
-    fun getByOfficeTypeState(officeTypeId: String, stateId: String, electionYear: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByOfficeTypeState(officeTypeId, stateId, electionYear, stageId)
+    fun getByOfficeTypeState(officeTypeId: String, stateId: String, electionYear: String): Call<CandidateList> {
+        return VSApi.getByOfficeTypeState(officeTypeId, stateId, electionYear)
     }
 
     fun getByLastName(lastName: String): Call<CandidateList> {
-        return getByLastName(lastName, Date().year().toString(), "")
+        return getByLastName(lastName, Date().year().toString())
     }
 
-    fun getByLastName(lastName: String, electionYear: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByLastName(lastName, electionYear, stageId)
+    fun getByLastName(lastName: String, electionYear: String): Call<CandidateList> {
+        return VSApi.getByLastName(lastName, electionYear)
     }
 
     fun getByElection(electionId: String): Call<CandidateList> {
-        return getByElection(electionId, "")
-    }
-
-    fun getByElection(electionId: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByElection(electionId, stageId)
+        return getByElection(electionId)
     }
 
     fun getByDistrict(districtId: String): Call<CandidateList> {
-        return getByDistrict(districtId, Date().year().toString(), "")
+        return getByDistrict(districtId, Date().year().toString())
     }
 
-    fun getByDistrict(districtId: String, electionYear: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByDistrict(districtId, electionYear, stageId)
+    fun getByDistrict(districtId: String, electionYear: String): Call<CandidateList> {
+        return VSApi.getByDistrict(districtId, electionYear)
     }
 
     fun getByZip(zip5: String): Call<CandidateList> {
-        return getByZip(zip5, Date().year().toString(), "", "")
+        return getByZip(zip5, Date().year().toString(), "")
     }
 
-    fun getByZip(zip5: String, electionYear: String, zip4: String, stageId: String): Call<CandidateList> {
-        return VSApi.getByZip(zip5, electionYear, zip4, stageId)
+    fun getByZip(zip5: String, electionYear: String, zip4: String): Call<CandidateList> {
+        return VSApi.getByZip(zip5, electionYear, zip4)
     }
     //endregion
 
