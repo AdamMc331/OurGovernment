@@ -22,6 +22,7 @@ import java.util.*
 class VSApi {
     private val VSApi: VSService
     private val stateService: StateService
+    private val localService: LocalService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
     val retrofit: Retrofit
@@ -46,6 +47,7 @@ class VSApi {
 
         VSApi = retrofit.create(VSService::class.java)
         stateService = retrofit.create(StateService::class.java)
+        localService = retrofit.create(LocalService::class.java)
     }
 
     fun setApiMode(apiMode: MockInterceptor.APIMode) {
@@ -68,15 +70,15 @@ class VSApi {
 
     //region Local
     fun getCounties(stateId: String): Call<CountyList> {
-        return VSApi.getCounties(stateId)
+        return localService.getCounties(stateId)
     }
 
     fun getCities(stateId: String): Call<CityList> {
-        return VSApi.getCities(stateId)
+        return localService.getCities(stateId)
     }
 
     fun getLocalOfficials(localId: String): Call<CandidateList> {
-        return VSApi.getLocalOfficials(localId)
+        return localService.getLocalOfficials(localId)
     }
     //endregion
 
