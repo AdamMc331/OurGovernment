@@ -24,6 +24,7 @@ class VSApi {
     private val stateService: StateService
     private val localService: LocalService
     private val candidateBioService: CandidateBioService
+    private val candidatesService: CandidatesService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
     val retrofit: Retrofit
@@ -50,6 +51,7 @@ class VSApi {
         stateService = retrofit.create(StateService::class.java)
         localService = retrofit.create(LocalService::class.java)
         candidateBioService = retrofit.create(CandidateBioService::class.java)
+        candidatesService = retrofit.create(CandidatesService::class.java)
     }
 
     fun setApiMode(apiMode: MockInterceptor.APIMode) {
@@ -96,7 +98,7 @@ class VSApi {
     }
 
     fun getByOfficeState(officeId: String, stateId: String, electionYear: String): Call<CandidateList> {
-        return VSApi.getByOfficeState(officeId, stateId, electionYear)
+        return candidatesService.getByOfficeState(officeId, stateId, electionYear)
     }
 
     fun getByOfficeTypeState(officeTypeId: String, stateId: String): Call<CandidateList> {
@@ -104,7 +106,7 @@ class VSApi {
     }
 
     fun getByOfficeTypeState(officeTypeId: String, stateId: String, electionYear: String): Call<CandidateList> {
-        return VSApi.getByOfficeTypeState(officeTypeId, stateId, electionYear)
+        return candidatesService.getByOfficeTypeState(officeTypeId, stateId, electionYear)
     }
 
     fun getByLastName(lastName: String): Call<CandidateList> {
@@ -112,7 +114,7 @@ class VSApi {
     }
 
     fun getByLastName(lastName: String, electionYear: String): Call<CandidateList> {
-        return VSApi.getByLastName(lastName, electionYear)
+        return candidatesService.getByLastName(lastName, electionYear)
     }
 
     fun getByElection(electionId: String): Call<CandidateList> {
@@ -124,7 +126,7 @@ class VSApi {
     }
 
     fun getByDistrict(districtId: String, electionYear: String): Call<CandidateList> {
-        return VSApi.getByDistrict(districtId, electionYear)
+        return candidatesService.getByDistrict(districtId, electionYear)
     }
 
     fun getByZip(zip5: String): Call<CandidateList> {
@@ -132,7 +134,7 @@ class VSApi {
     }
 
     fun getByZip(zip5: String, electionYear: String, zip4: String): Call<CandidateList> {
-        return VSApi.getByZip(zip5, electionYear, zip4)
+        return candidatesService.getByZip(zip5, electionYear, zip4)
     }
     //endregion
 
