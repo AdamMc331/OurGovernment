@@ -142,5 +142,13 @@ class VSApi {
     fun getElectionByYearState(year: String, stateId: String): Call<Election> {
         return VSApi.getElectionByYearState(year, stateId)
     }
+
+    fun getElectionByZip(zip5: String): Call<Election> {
+        return getElectionByZip(zip5, "", Date().year().toString())
+    }
+
+    fun getElectionByZip(zip5: String, zip4: String, year: String): Call<Election> {
+        return VSApi.getElectionByZip(zip5, zip4, year)
+    }
     //endregion
 }
