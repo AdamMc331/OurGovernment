@@ -37,66 +37,6 @@ class TestMockResponses {
         api.setApiMode(MockInterceptor.APIMode.LIVE)
     }
 
-    //region State
-    @Test
-    fun testGetStateIDs() {
-        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
-
-        val countdown = CountDownLatch(1)
-        var baseStateList: StateList? = null
-
-        val call = api.getStateIDs()
-        call.enqueue(object : Callback<StateList> {
-            override fun onFailure(call: Call<StateList>?, t: Throwable?) {
-                t?.printStackTrace()
-                countdown.countDown()
-            }
-
-            override fun onResponse(call: Call<StateList>?, response: Response<StateList>?) {
-                baseStateList = response?.body()
-                countdown.countDown()
-            }
-        })
-        countdown.await()
-
-        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
-        assertNotNull(baseStateList)
-        assertEquals(3, baseStateList!!.list.size)
-        assertEquals("MI", baseStateList!!.list[0].stateId)
-        assertEquals("OH", baseStateList!!.list[1].stateId)
-        assertEquals("FL", baseStateList!!.list[2].stateId)
-    }
-
-    @Test
-    fun testGetState() {
-        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
-
-        val countdown = CountDownLatch(1)
-        var state: State? = null
-
-        val call = api.getState("MI")
-        call.enqueue(object: Callback<State> {
-            override fun onResponse(call: Call<State>?, response: Response<State>?) {
-                state = response?.body()
-                countdown.countDown()
-            }
-
-            override fun onFailure(call: Call<State>?, t: Throwable?) {
-                t?.printStackTrace()
-                countdown.countDown()
-            }
-        })
-        countdown.await(5, TimeUnit.SECONDS)
-
-        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
-        assertNotNull(state)
-        assertEquals("MI", state!!.details.stateId)
-        assertEquals("Michigan", state!!.details.name)
-        assertEquals("Lansing", state!!.details.capital)
-        assertEquals("Sixth", state!!.details.usCircuit)
-    }
-    //endregion
-
     //region Local
     @Test
     fun testGetCounties() {

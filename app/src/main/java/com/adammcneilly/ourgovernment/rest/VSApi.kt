@@ -19,8 +19,7 @@ import java.util.*
  *
  * Created by adam.mcneilly on 12/26/16.
  */
-class VSApi {
-    private val stateService: StateService
+open class VSApi {
     private val localService: LocalService
     private val candidateBioService: CandidateBioService
     private val candidatesService: CandidatesService
@@ -47,7 +46,6 @@ class VSApi {
                 .client(client)
                 .build()
 
-        stateService = retrofit.create(StateService::class.java)
         localService = retrofit.create(LocalService::class.java)
         candidateBioService = retrofit.create(CandidateBioService::class.java)
         candidatesService = retrofit.create(CandidatesService::class.java)
@@ -61,16 +59,6 @@ class VSApi {
     fun registerMockResponse(path: String, model: MockableModel) {
         mockInterceptor.mockResponses.put(path, model)
     }
-
-    //region State
-    fun getStateIDs(): Call<StateList> {
-        return stateService.getStateIDs()
-    }
-
-    fun getState(stateId: String): Call<State> {
-        return stateService.getState(stateId)
-    }
-    //endregion
 
     //region Local
     fun getCounties(stateId: String): Call<CountyList> {
