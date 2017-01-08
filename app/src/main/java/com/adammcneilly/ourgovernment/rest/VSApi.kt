@@ -20,11 +20,11 @@ import java.util.*
  * Created by adam.mcneilly on 12/26/16.
  */
 class VSApi {
-    private val VSApi: VSService
     private val stateService: StateService
     private val localService: LocalService
     private val candidateBioService: CandidateBioService
     private val candidatesService: CandidatesService
+    private val electionsService: ElectionsService
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
     val retrofit: Retrofit
@@ -47,11 +47,11 @@ class VSApi {
                 .client(client)
                 .build()
 
-        VSApi = retrofit.create(VSService::class.java)
         stateService = retrofit.create(StateService::class.java)
         localService = retrofit.create(LocalService::class.java)
         candidateBioService = retrofit.create(CandidateBioService::class.java)
         candidatesService = retrofit.create(CandidatesService::class.java)
+        electionsService = retrofit.create(ElectionsService::class.java)
     }
 
     fun setApiMode(apiMode: MockInterceptor.APIMode) {
@@ -140,11 +140,11 @@ class VSApi {
 
     //region Election
     fun getElection(electionId: String): Call<Election> {
-        return VSApi.getElection(electionId)
+        return electionsService.getElection(electionId)
     }
 
     fun getElectionByYearState(year: String, stateId: String): Call<Election> {
-        return VSApi.getElectionByYearState(year, stateId)
+        return electionsService.getElectionByYearState(year, stateId)
     }
 
     fun getElectionByZip(zip5: String): Call<Election> {
@@ -152,7 +152,7 @@ class VSApi {
     }
 
     fun getElectionByZip(zip5: String, zip4: String, year: String): Call<Election> {
-        return VSApi.getElectionByZip(zip5, zip4, year)
+        return electionsService.getElectionByZip(zip5, zip4, year)
     }
     //endregion
 }

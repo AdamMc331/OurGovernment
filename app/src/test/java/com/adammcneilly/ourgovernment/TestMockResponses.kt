@@ -248,6 +248,6 @@ class TestMockResponses {
         val GET_COUNTIES_PATH = "/Local.getCounties"
         val GET_CITIES_PATH = "/Local.getCities"
         val GET_LOCAL_OFFICIALS_PATH = "/Local.getOfficials"
-        val GET_BIO_PATH = "/Candidate.getBio"
+        val GET_BIO_PATH = "/CandidateBio.getBio"
     }
 }
