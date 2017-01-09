@@ -1,6 +1,6 @@
 package com.adammcneilly.ourgovernment
 
-import com.adammcneilly.ourgovernment.models.BranchList
+import com.adammcneilly.ourgovernment.models.OfficeBranchList
 import com.adammcneilly.ourgovernment.models.OfficeLevelList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
@@ -24,13 +24,13 @@ class TestOfficeManager {
 
     val api = OfficeManager()
     val officeTypeListSuccess: OfficeTypeList = api.gson.fromJson(OfficeTypeList().getSuccessJson()[0], OfficeTypeList::class.java)
-    val branchListSuccess: BranchList = api.gson.fromJson(BranchList().getSuccessJson()[0], BranchList::class.java)
+    val branchListSuccess: OfficeBranchList = api.gson.fromJson(OfficeBranchList().getSuccessJson()[0], OfficeBranchList::class.java)
     val levelListSuccess: OfficeLevelList = api.gson.fromJson(OfficeLevelList().getSuccessJson()[0], OfficeLevelList::class.java)
 
     @Before
     fun setup() {
         api.registerMockResponse(GET_TYPES_PATH, OfficeTypeList())
-        api.registerMockResponse(GET_BRANCHES_PATH, BranchList())
+        api.registerMockResponse(GET_BRANCHES_PATH, OfficeBranchList())
         api.registerMockResponse(GET_LEVELS_PATH, OfficeLevelList())
     }
 
@@ -69,16 +69,16 @@ class TestOfficeManager {
         api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
 
         val countdown = CountDownLatch(1)
-        var branchList: BranchList? = null
+        var branchList: OfficeBranchList? = null
 
         val call = api.getBranches()
-        call.enqueue(object : Callback<BranchList> {
-            override fun onFailure(call: Call<BranchList>?, t: Throwable?) {
+        call.enqueue(object : Callback<OfficeBranchList> {
+            override fun onFailure(call: Call<OfficeBranchList>?, t: Throwable?) {
                 t?.printStackTrace()
                 countdown.countDown()
             }
 
-            override fun onResponse(call: Call<BranchList>?, response: Response<BranchList>?) {
+            override fun onResponse(call: Call<OfficeBranchList>?, response: Response<OfficeBranchList>?) {
                 branchList = response?.body()
                 countdown.countDown()
             }

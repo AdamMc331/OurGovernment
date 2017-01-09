@@ -5,15 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a group of states returned from the API.
  *
  * Created by adam.mcneilly on 12/26/16.
  */
-open class StateList : BaseModel() {
-    var list: ArrayList<StateList.State> = ArrayList()
+open class StateList : ProxyList<StateList.State>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -32,14 +30,6 @@ open class StateList : BaseModel() {
                         "}" +
                     "}" +
                 "}")
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return (other is StateList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
     }
 
     open class State : BaseModel() {
@@ -75,7 +65,7 @@ open class StateList : BaseModel() {
                         if (listObj.has(STATE) && listObj.get(STATE).isJsonArray) {
                             val stateArray = listObj.get(STATE).asJsonArray
 
-                            stateArray.mapTo(response.list) { Gson().fromJson(it, State::class.java) }
+                            stateArray.mapTo(response) { Gson().fromJson(it, State::class.java) }
                         }
                     }
                 }

@@ -5,15 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of counties returned by the API.
  *
  * Created by adam.mcneilly on 12/28/16.
  */
-open class CountyList : BaseModel() {
-    var list: ArrayList<CountyList.County> = ArrayList()
+open class CountyList : ProxyList<CountyList.County>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -44,14 +42,6 @@ open class CountyList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is CountyList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
     open class CountyListDeserializer : JsonDeserializer<CountyList> {
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CountyList {
             val result = CountyList()
@@ -64,7 +54,7 @@ open class CountyList : BaseModel() {
 
                     if (counties.has(COUNTY) && counties.get(COUNTY).isJsonArray) {
                         val countyArray = counties.get(COUNTY).asJsonArray
-                        countyArray.mapTo(result.list) { Gson().fromJson(it, County::class.java) }
+                        countyArray.mapTo(result) { Gson().fromJson(it, County::class.java) }
                     }
                 }
             }

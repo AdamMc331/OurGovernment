@@ -5,15 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of cities returned from the API
  *
  * Created by adam.mcneilly on 12/31/16.
  */
-open class CityList : BaseModel() {
-    var list: ArrayList<CityList.City> = ArrayList()
+open class CityList : ProxyList<CityList.City>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -44,14 +42,6 @@ open class CityList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is CityList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
     open class CityListDeserializer : JsonDeserializer<CityList> {
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CityList {
             val result = CityList()
@@ -64,7 +54,7 @@ open class CityList : BaseModel() {
 
                     if (cities.has(CITY) && cities.get(CITY).isJsonArray) {
                         val cityArray = cities.get(CITY).asJsonArray
-                        cityArray.mapTo(result.list) { Gson().fromJson(it, City::class.java) }
+                        cityArray.mapTo(result) { Gson().fromJson(it, City::class.java) }
                     }
                 }
             }

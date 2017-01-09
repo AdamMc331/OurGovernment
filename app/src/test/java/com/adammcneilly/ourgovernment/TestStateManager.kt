@@ -59,10 +59,7 @@ class TestStateManager {
         })
         countdown.await()
 
-        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
         TestCase.assertNotNull(baseStateList)
-
-        assertEquals(3, baseStateList!!.list.size)
         assertEquals(stateListSuccess, baseStateList)
     }
 

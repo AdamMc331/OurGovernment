@@ -5,16 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of branches in our government.
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class BranchList : BaseModel() {
-
-    var list: ArrayList<Branch> = ArrayList()
+class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -42,18 +39,10 @@ class BranchList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is BranchList) && list == other.list
-    }
+    open class OfficeBranchListDeserializer : JsonDeserializer<OfficeBranchList> {
 
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
-    open class BranchListDeserializer : JsonDeserializer<BranchList> {
-
-        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): BranchList {
-            val result = BranchList()
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): OfficeBranchList {
+            val result = OfficeBranchList()
 
             if (json != null && json.isJsonObject) {
                 val root = json.asJsonObject
@@ -63,7 +52,7 @@ class BranchList : BaseModel() {
 
                     if (branches.has(BRANCH) && branches.get(BRANCH).isJsonArray) {
                         val branchArray = branches.get(BRANCH).asJsonArray
-                        branchArray.mapTo(result.list) { Gson().fromJson(it, Branch::class.java) }
+                        branchArray.mapTo(result) { Gson().fromJson(it, OfficeBranch::class.java) }
                     }
                 }
             }
@@ -77,12 +66,12 @@ class BranchList : BaseModel() {
         }
     }
 
-    open class Branch : BaseModel() {
+    open class OfficeBranch : BaseModel() {
         var officeBranchId = ""
         var name = ""
 
         override fun equals(other: Any?): Boolean {
-            return (other is Branch) && name == other.name && officeBranchId == other.officeBranchId
+            return (other is OfficeBranch) && name == other.name && officeBranchId == other.officeBranchId
         }
 
         override fun hashCode(): Int {

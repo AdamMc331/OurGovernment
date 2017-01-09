@@ -5,16 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of office levels.
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class OfficeLevelList : BaseModel() {
-
-    var list: ArrayList<OfficeLevel> = ArrayList()
+class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -42,14 +39,6 @@ class OfficeLevelList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is OfficeLevelList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
     open class OfficeLevelListDeserializer : JsonDeserializer<OfficeLevelList> {
 
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): OfficeLevelList {
@@ -63,7 +52,7 @@ class OfficeLevelList : BaseModel() {
 
                     if (levels.has(LEVEL) && levels.get(LEVEL).isJsonArray) {
                         val levelArray = levels.get(LEVEL).asJsonArray
-                        levelArray.mapTo(result.list) { Gson().fromJson(it, OfficeLevel::class.java) }
+                        levelArray.mapTo(result) { Gson().fromJson(it, OfficeLevel::class.java) }
                     }
                 }
             }

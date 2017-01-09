@@ -5,15 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of candidates returned from the API
  *
  * Created by adam.mcneilly on 12/28/16.
  */
-open class CandidateList : BaseModel() {
-    var list: ArrayList<CandidateList.Candidate> = ArrayList()
+open class CandidateList : ProxyList<CandidateList.Candidate>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -62,14 +60,6 @@ open class CandidateList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is CandidateList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
     open class CandidateListDeserializer : JsonDeserializer<CandidateList> {
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CandidateList {
             val result = CandidateList()
@@ -82,7 +72,7 @@ open class CandidateList : BaseModel() {
 
                     if (candidateList.has(CANDIDATE) && candidateList.get(CANDIDATE).isJsonArray) {
                         val candidateArray = candidateList.get(CANDIDATE).asJsonArray
-                        candidateArray.mapTo(result.list) { Gson().fromJson(it, Candidate::class.java) }
+                        candidateArray.mapTo(result) { Gson().fromJson(it, Candidate::class.java) }
                     }
                 }
             }

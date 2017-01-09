@@ -1,6 +1,6 @@
 package com.adammcneilly.ourgovernment.rest
 
-import com.adammcneilly.ourgovernment.models.BranchList
+import com.adammcneilly.ourgovernment.models.OfficeBranchList
 import com.adammcneilly.ourgovernment.models.OfficeLevelList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
 import retrofit2.Call
@@ -17,7 +17,7 @@ class OfficeManager : BaseManager() {
         return officeService.getTypes()
     }
 
-    fun getBranches(): Call<BranchList> {
+    fun getBranches(): Call<OfficeBranchList> {
         return officeService.getBranches()
     }
 

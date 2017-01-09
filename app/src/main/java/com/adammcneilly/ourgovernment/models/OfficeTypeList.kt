@@ -5,15 +5,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import java.util.*
 
 /**
  * Represents a list of Office Types
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-open class OfficeTypeList : BaseModel() {
-    var list: ArrayList<OfficeType> = ArrayList()
+open class OfficeTypeList : ProxyList<OfficeTypeList.OfficeType>() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -47,14 +45,6 @@ open class OfficeTypeList : BaseModel() {
                 "}")
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other is OfficeTypeList) && list == other.list
-    }
-
-    override fun hashCode(): Int {
-        return list.hashCode()
-    }
-
     open class OfficeType : BaseModel() {
         var officeTypeId = ""
         var officeLevelId = ""
@@ -86,7 +76,7 @@ open class OfficeTypeList : BaseModel() {
 
                     if (officeTypes.has(TYPE) && officeTypes.get(TYPE).isJsonArray) {
                         val types = officeTypes.get(TYPE).asJsonArray
-                        types.mapTo(result.list) { Gson().fromJson(it, OfficeType::class.java) }
+                        types.mapTo(result) { Gson().fromJson(it, OfficeType::class.java) }
                     }
                 }
             }
