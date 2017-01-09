@@ -4,6 +4,8 @@ import com.adammcneilly.ourgovernment.models.CandidateBio
 import com.adammcneilly.ourgovernment.rest.CandidateBioManager
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +22,7 @@ import java.util.concurrent.CountDownLatch
 class TestCandidateBioManager {
 
     val api = CandidateBioManager()
+    val candidateBioSuccess: CandidateBio = api.gson.fromJson(CandidateBio().getSuccessJson()[0], CandidateBio::class.java)
 
     @Before
     fun setup() {
@@ -52,12 +55,8 @@ class TestCandidateBioManager {
         })
         countdown.await()
 
-        TestCase.assertNotNull(candidateBio)
-        TestCase.assertEquals("James", candidateBio!!.candidate.firstName)
-        TestCase.assertEquals("R.", candidateBio!!.candidate.middleName)
-        TestCase.assertEquals("Fouts", candidateBio!!.candidate.lastName)
-        TestCase.assertEquals("Mayor", candidateBio!!.office.name)
-        TestCase.assertTrue(candidateBio!!.election.ballotName.isEmpty())
+        assertNotNull(candidateBio)
+        assertEquals(candidateBioSuccess, candidateBio)
     }
 
     companion object {

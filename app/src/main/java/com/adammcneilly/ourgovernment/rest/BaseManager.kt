@@ -33,6 +33,7 @@ open class BaseManager {
 
         gson = GsonBuilder()
                 .registerTypeAdapter(CandidateList.CandidateListDeserializer::class.java, CandidateList.CandidateListDeserializer())
+                .registerTypeAdapter(CandidateBio.CandidateBioDeserializer::class.java, CandidateBio.CandidateBioDeserializer())
                 .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
                 .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
                 .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
