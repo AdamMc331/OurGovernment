@@ -32,6 +32,7 @@ open class BaseManager {
                 .build()
 
         gson = GsonBuilder()
+                .registerTypeAdapter(OfficeLevelList::class.java, OfficeLevelList.OfficeLevelListDeserializer())
                 .registerTypeAdapter(OfficeTypeList::class.java, OfficeTypeList.OfficeTypeListDeserializer())
                 .registerTypeAdapter(CandidateList::class.java, CandidateList.CandidateListDeserializer())
                 .registerTypeAdapter(CandidateBio::class.java, CandidateBio.CandidateBioDeserializer())
