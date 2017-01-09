@@ -1,5 +1,10 @@
 package com.adammcneilly.ourgovernment.models
 
+import com.google.gson.Gson
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -12,45 +17,83 @@ open class CandidateList : BaseModel() {
 
     override fun getSuccessJson(): List<String> {
         return listOf(
-                "<candidateList>" +
-                        "<generalInfo>" +
-                        "<title>Project Vote Smart - Search Candidates</title>" +
-                        "<linkBack>http://votesmart.org/</linkBack>" +
-                        "</generalInfo>" +
-                        "<candidate>" +
-                        "<candidateId>76596</candidateId>" +
-                        "<firstName>James</firstName>" +
-                        "<nickName/>" +
-                        "<middleName>R.</middleName>" +
-                        "<preferredName>James</preferredName>" +
-                        "<lastName>Fouts</lastName>" +
-                        "<suffix/>" +
-                        "<title>Mayor</title>" +
-                        "<ballotName/>" +
-                        "<electionParties/>" +
-                        "<electionStatus/>" +
-                        "<electionStage/>" +
-                        "<electionDistrictId/>" +
-                        "<electionDistrictName/>" +
-                        "<electionOffice/>" +
-                        "<electionOfficeId/>" +
-                        "<electionStateId/>" +
-                        "<electionOfficeTypeId/>" +
-                        "<electionYear/>" +
-                        "<electionSpecial/>" +
-                        "<electionDate/>" +
-                        "<officeParties/>" +
-                        "<officeStatus/>" +
-                        "<officeDistrictId>31279</officeDistrictId>" +
-                        "<officeDistrictName>At-Large</officeDistrictName>" +
-                        "<officeStateId>MI</officeStateId>" +
-                        "<officeId>73</officeId>" +
-                        "<officeName>Mayor</officeName>" +
-                        "<officeTypeId>M</officeTypeId>" +
-                        "<runningMateId/>" +
-                        "<runningMateName/>" +
-                        "</candidate>" +
-                        "</candidateList>")
+                "{" +
+                    "\"candidateList\":{" +
+                        "\"generalInfo\":{" +
+                            "\"title\":\"Project Vote Smart - Search Candidates\"," +
+                            "\"linkBack\":\"http:\\/\\/votesmart.org\\/\"" +
+                        "}," +
+                        "\"candidate\":[" +
+                            "{" +
+                                "\"candidateId\":\"76596\"," +
+                                "\"firstName\":\"James\"," +
+                                "\"nickName\":\"\"," +
+                                "\"middleName\":\"R.\"," +
+                                "\"preferredName\":\"James\"," +
+                                "\"lastName\":\"Fouts\"," +
+                                "\"suffix\":\"\"," +
+                                "\"title\":\"Mayor\"," +
+                                "\"ballotName\":\"\"," +
+                                "\"electionParties\":\"\"," +
+                                "\"electionStatus\":\"\"," +
+                                "\"electionStage\":\"\"," +
+                                "\"electionDistrictId\":\"\"," +
+                                "\"electionDistrictName\":\"\"," +
+                                "\"electionOffice\":\"\"," +
+                                "\"electionOfficeId\":\"\"," +
+                                "\"electionStateId\":\"\"," +
+                                "\"electionOfficeTypeId\":\"\"," +
+                                "\"electionYear\":\"\"," +
+                                "\"electionSpecial\":\"\"," +
+                                "\"electionDate\":\"\"," +
+                                "\"officeParties\":\"\"," +
+                                "\"officeStatus\":\"\"," +
+                                "\"officeDistrictId\":\"31279\"," +
+                                "\"officeDistrictName\":\"At-Large\"," +
+                                "\"officeStateId\":\"MI\"," +
+                                "\"officeId\":\"73\"," +
+                                "\"officeName\":\"Mayor\"," +
+                                "\"officeTypeId\":\"M\"," +
+                                "\"runningMateId\":\"\"," +
+                                "\"runningMateName\":\"\"" +
+                            "}" +
+                        "]" +
+                    "}" +
+                "}")
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is CandidateList) && list == other.list
+    }
+
+    override fun hashCode(): Int {
+        return list.hashCode()
+    }
+
+    open class CandidateListDeserializer : JsonDeserializer<CandidateList> {
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CandidateList {
+            val result = CandidateList()
+
+            if (json != null && json.isJsonObject) {
+                val root = json.asJsonObject
+
+                if (root.has(CANDIDATE_LIST) && root.get(CANDIDATE_LIST).isJsonObject) {
+                    val candidateList = root.get(CANDIDATE_LIST).asJsonObject
+
+                    if (candidateList.has(CANDIDATE) && root.get(CANDIDATE).isJsonArray) {
+                        val candidateArray = root.get(CANDIDATE).asJsonArray
+                        candidateArray.mapTo(result.list) { Gson().fromJson(it, Candidate::class.java) }
+                    }
+                }
+            }
+
+            return result
+        }
+
+        companion object {
+            val CANDIDATE_LIST = "candidateList"
+            val CANDIDATE = "candidate"
+        }
     }
 
     open class Candidate : BaseModel() {
@@ -85,5 +128,44 @@ open class CandidateList : BaseModel() {
         var officeTypeId = ""
         var runningMateId = 0
         var runningMateName = ""
+
+        override fun equals(other: Any?): Boolean {
+            return (other is Candidate)
+                    && candidateId == other.candidateId
+                    && firstName == other.firstName
+                    && lastName == other.lastName
+                    && middleName == other.middleName
+                    && nickName == other.nickName
+                    && preferredName == other.preferredName
+                    && suffix == other.suffix
+                    && title == other.title
+                    && ballotName == other.ballotName
+                    && electionParties == other.electionParties
+                    && electionStage == other.electionStage
+                    && electionStatus == other.electionStatus
+                    && electionStateId == other.electionStateId
+                    && electionDate == other.electionDate
+                    && electionDistrictId == other.electionDistrictId
+                    && electionDistrictName == other.electionDistrictName
+                    && electionOffice == other.electionOffice
+                    && electionOfficeId == other.electionOfficeId
+                    && electionOfficeTypeId == other.electionOfficeTypeId
+                    && electionYear == other.electionYear
+                    && electionSpecial == other.electionSpecial
+                    && officeParties == other.officeParties
+                    && officeStatus == other.officeStatus
+                    && officeStateId == other.officeStateId
+                    && officeDistrictId == other.officeDistrictId
+                    && officeDistrictName == other.officeDistrictName
+                    && officeId == other.officeId
+                    && officeName == other.officeName
+                    && officeTypeId == other.officeTypeId
+                    && runningMateId == other.runningMateId
+                    && runningMateName == other.runningMateName
+        }
+
+        override fun hashCode(): Int {
+            return super.hashCode()
+        }
     }
 }

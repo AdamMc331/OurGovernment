@@ -2,8 +2,7 @@ package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
-import com.adammcneilly.ourgovernment.models.State
-import com.adammcneilly.ourgovernment.models.StateList
+import com.adammcneilly.ourgovernment.models.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -33,7 +32,10 @@ open class BaseManager {
                 .build()
 
         gson = GsonBuilder()
+                .registerTypeAdapter(CandidateList.CandidateListDeserializer::class.java, CandidateList.CandidateListDeserializer())
+                .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
                 .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
+                .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
                 .registerTypeAdapter(State::class.java, State.StateDeserializer())
                 .create()
 
