@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 import java.util.*
 
@@ -14,7 +13,6 @@ import java.util.*
  * Created by adam.mcneilly on 12/26/16.
  */
 open class StateList : BaseModel() {
-    @SerializedName("stateList.list.state")
     var list: ArrayList<StateList.State> = ArrayList()
 
     override fun getSuccessJson(): List<String> {

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
  */
 class TestStateManager {
     val api = StateManager()
-    val stateListSuccess = api.gson.fromJson(StateList().getSuccessJson()[0], StateList::class.java)
+    val stateListSuccess: StateList = api.gson.fromJson(StateList().getSuccessJson()[0], StateList::class.java)
     val stateSuccess: State = api.gson.fromJson(State().getSuccessJson()[0], State::class.java)
 
     @Before
@@ -62,10 +62,8 @@ class TestStateManager {
         //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
         TestCase.assertNotNull(baseStateList)
 
-        TestCase.assertEquals(3, baseStateList!!.list.size)
-        TestCase.assertEquals("MI", baseStateList!!.list[0].stateId)
-        TestCase.assertEquals("OH", baseStateList!!.list[1].stateId)
-        TestCase.assertEquals("FL", baseStateList!!.list[2].stateId)
+        assertEquals(3, baseStateList!!.list.size)
+        assertEquals(stateListSuccess, baseStateList)
     }
 
     @Test

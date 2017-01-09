@@ -80,8 +80,8 @@ open class CandidateList : BaseModel() {
                 if (root.has(CANDIDATE_LIST) && root.get(CANDIDATE_LIST).isJsonObject) {
                     val candidateList = root.get(CANDIDATE_LIST).asJsonObject
 
-                    if (candidateList.has(CANDIDATE) && root.get(CANDIDATE).isJsonArray) {
-                        val candidateArray = root.get(CANDIDATE).asJsonArray
+                    if (candidateList.has(CANDIDATE) && candidateList.get(CANDIDATE).isJsonArray) {
+                        val candidateArray = candidateList.get(CANDIDATE).asJsonArray
                         candidateArray.mapTo(result.list) { Gson().fromJson(it, Candidate::class.java) }
                     }
                 }
@@ -97,7 +97,7 @@ open class CandidateList : BaseModel() {
     }
 
     open class Candidate : BaseModel() {
-        var candidateId = 0
+        var candidateId = ""
         var firstName = ""
         var lastName = ""
         var nickName = ""
@@ -120,13 +120,13 @@ open class CandidateList : BaseModel() {
         var electionDate = ""
         var officeParties = ""
         var officeStatus = ""
-        var officeDistrictId = 0
+        var officeDistrictId = ""
         var officeDistrictName = ""
         var officeStateId = ""
-        var officeId = 0
+        var officeId = ""
         var officeName = ""
         var officeTypeId = ""
-        var runningMateId = 0
+        var runningMateId = ""
         var runningMateName = ""
 
         override fun equals(other: Any?): Boolean {
