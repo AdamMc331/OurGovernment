@@ -4,7 +4,10 @@ import com.adammcneilly.ourgovernment.models.State
 import com.adammcneilly.ourgovernment.models.StateList
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import com.adammcneilly.ourgovernment.rest.StateManager
+import com.google.gson.Gson
 import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -21,6 +24,8 @@ import java.util.concurrent.TimeUnit
  */
 class TestStateManager {
     val api = StateManager()
+    val stateListSuccess = api.gson.fromJson(StateList().getSuccessJson()[0], StateList::class.java)
+    val stateSuccess: State = api.gson.fromJson(State().getSuccessJson()[0], State::class.java)
 
     @Before
     fun setup() {
@@ -56,6 +61,7 @@ class TestStateManager {
 
         //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
         TestCase.assertNotNull(baseStateList)
+
         TestCase.assertEquals(3, baseStateList!!.list.size)
         TestCase.assertEquals("MI", baseStateList!!.list[0].stateId)
         TestCase.assertEquals("OH", baseStateList!!.list[1].stateId)
@@ -83,12 +89,8 @@ class TestStateManager {
         })
         countdown.await(5, TimeUnit.SECONDS)
 
-        //TODO: Find a way to convert the XML string to a POJO so that we don't have to hardcode this
-        TestCase.assertNotNull(state)
-        TestCase.assertEquals("MI", state!!.details.stateId)
-        TestCase.assertEquals("Michigan", state!!.details.name)
-        TestCase.assertEquals("Lansing", state!!.details.capital)
-        TestCase.assertEquals("Sixth", state!!.details.usCircuit)
+        assertNotNull(state)
+        assertEquals(stateSuccess, state)
     }
 
     companion object {

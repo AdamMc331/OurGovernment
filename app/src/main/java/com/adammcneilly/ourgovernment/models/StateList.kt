@@ -36,12 +36,28 @@ open class StateList : BaseModel() {
                 "}")
     }
 
+    override fun equals(other: Any?): Boolean {
+        return (other is StateList) && list == other.list
+    }
+
+    override fun hashCode(): Int {
+        return list.hashCode()
+    }
+
     open class State : BaseModel() {
         var stateId: String = ""
         var name: String = ""
 
         override fun toString(): String {
             return name
+        }
+
+        override fun equals(other: Any?): Boolean {
+            return (other is State) && stateId == other.stateId && name == other.name
+        }
+
+        override fun hashCode(): Int {
+            return stateId.hashCode() * name.hashCode()
         }
     }
 

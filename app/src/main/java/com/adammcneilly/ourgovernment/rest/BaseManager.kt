@@ -4,6 +4,7 @@ import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
 import com.adammcneilly.ourgovernment.models.State
 import com.adammcneilly.ourgovernment.models.StateList
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 open class BaseManager {
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
+    val gson: Gson
     val retrofit: Retrofit
 
     init {
@@ -30,7 +32,7 @@ open class BaseManager {
                 .addInterceptor(ApiKeyInterceptor())
                 .build()
 
-        val gson = GsonBuilder()
+        gson = GsonBuilder()
                 .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
                 .registerTypeAdapter(State::class.java, State.StateDeserializer())
                 .create()

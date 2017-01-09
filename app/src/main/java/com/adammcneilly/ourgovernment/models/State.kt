@@ -17,45 +17,53 @@ open class State : BaseModel() {
     override fun getSuccessJson(): List<String> {
         return listOf(
                 "{" +
-                    "\"state\":{" +
+                        "\"state\":{" +
                         "\"generalInfo\":{" +
-                            "\"title\":\"Project Vote Smart - States\"," +
-                            "\"linkBack\":\"http:\\/\\/votesmart.org\\/mystate_statefacts.php?state_id=MI\"" +
+                        "\"title\":\"Project Vote Smart - States\"," +
+                        "\"linkBack\":\"http:\\/\\/votesmart.org\\/mystate_statefacts.php?state_id=MI\"" +
                         "}," +
                         "\"details\":{" +
-                            "\"stateId\":\"MI\"," +
-                            "\"stateType\":\"State\"," +
-                            "\"name\":\"Michigan\"," +
-                            "\"nickName\":\"The Great Lake State\"," +
-                            "\"capital\":\"Lansing\"," +
-                            "\"area\":\"58,216 sq mi\"," +
-                            "\"population\":\"9,883,360 (2012 est.)\"," +
-                            "\"statehood\":\"Jan. 26, 1837 (26th state)\"," +
-                            "\"motto\":\"Si Quaeris Peninsulam Amoenam Circumspice [If You Seek a Pleasant Peninsula, Look about You]\"," +
-                            "\"flower\":\"Apple Blossom\"," +
-                            "\"tree\":\"\"," +
-                            "\"bird\":\"Robin\"," +
-                            "\"highPoint\":\"Mt. Arvon, 1,979 ft\"," +
-                            "\"lowPoint\":\"Lake Erie, 572 ft\"," +
-                            "\"bicameral\":\"t\"," +
-                            "\"upperLegis\":\"Legislature\"," +
-                            "\"lowerLegis\":\"House of Representatives\"," +
-                            "\"ltGov\":\"t\"," +
-                            "\"senators\":\"0\"," +
-                            "\"reps\":\"0\"," +
-                            "\"termLimit\":\"0\"," +
-                            "\"termLength\":\"0\"," +
-                            "\"billUrl\":\"\"," +
-                            "\"voteUrl\":\"\"," +
-                            "\"primaryDate\":\"\"," +
-                            "\"generalDate\":\"\"," +
-                            "\"largestCity\":\"\"," +
-                            "\"rollUpper\":\"Roll no.\"," +
-                            "\"rollLower\":\"Roll no.\"," +
-                            "\"usCircuit\":\"Sixth\"" +
+                        "\"stateId\":\"MI\"," +
+                        "\"stateType\":\"State\"," +
+                        "\"name\":\"Michigan\"," +
+                        "\"nickName\":\"The Great Lake State\"," +
+                        "\"capital\":\"Lansing\"," +
+                        "\"area\":\"58,216 sq mi\"," +
+                        "\"population\":\"9,883,360 (2012 est.)\"," +
+                        "\"statehood\":\"Jan. 26, 1837 (26th state)\"," +
+                        "\"motto\":\"Si Quaeris Peninsulam Amoenam Circumspice [If You Seek a Pleasant Peninsula, Look about You]\"," +
+                        "\"flower\":\"Apple Blossom\"," +
+                        "\"tree\":\"\"," +
+                        "\"bird\":\"Robin\"," +
+                        "\"highPoint\":\"Mt. Arvon, 1,979 ft\"," +
+                        "\"lowPoint\":\"Lake Erie, 572 ft\"," +
+                        "\"bicameral\":\"t\"," +
+                        "\"upperLegis\":\"Legislature\"," +
+                        "\"lowerLegis\":\"House of Representatives\"," +
+                        "\"ltGov\":\"t\"," +
+                        "\"senators\":\"0\"," +
+                        "\"reps\":\"0\"," +
+                        "\"termLimit\":\"0\"," +
+                        "\"termLength\":\"0\"," +
+                        "\"billUrl\":\"\"," +
+                        "\"voteUrl\":\"\"," +
+                        "\"primaryDate\":\"\"," +
+                        "\"generalDate\":\"\"," +
+                        "\"largestCity\":\"\"," +
+                        "\"rollUpper\":\"Roll no.\"," +
+                        "\"rollLower\":\"Roll no.\"," +
+                        "\"usCircuit\":\"Sixth\"" +
                         "}" +
-                    "}" +
-                "}")
+                        "}" +
+                        "}")
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is State) && details == other.details
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 
     open class StateDeserializer : JsonDeserializer<State> {
@@ -115,5 +123,47 @@ open class State : BaseModel() {
         var rollUpper = ""
         var rollLower = ""
         var usCircuit = ""
+
+        override fun equals(other: Any?): Boolean {
+            return (other is Details)
+                    && stateId == other.stateId
+                    && name == other.name
+                    && stateType == other.stateType
+                    && nickName == other.nickName
+                    && capital == other.capital
+                    && area == other.area
+                    && population == other.population
+                    && statehood == other.statehood
+                    && motto == other.motto
+                    && flower == other.flower
+                    && tree == other.tree
+                    && bird == other.bird
+                    && highPoint == other.highPoint
+                    && lowPoint == other.lowPoint
+                    && bicameral == other.bicameral
+                    && upperLegis == other.upperLegis
+                    && lowerLegis == other.lowerLegis
+                    && ltGov == other.ltGov
+                    && senators == other.senators
+                    && reps == other.reps
+                    && termLimit == other.termLimit
+                    && termLength == other.termLength
+                    && billUrl == other.billUrl
+                    && voteUrl == other.voteUrl
+                    && voterReg == other.voterReg
+                    && primaryDate == other.primaryDate
+                    && generalDate == other.generalDate
+                    && absenteeWho == other.absenteeWho
+                    && absenteeWhen == other.absenteeWhen
+                    && absenteeHow == other.absenteeHow
+                    && largestCity == other.largestCity
+                    && rollUpper == other.rollUpper
+                    && rollLower == other.rollLower
+                    && usCircuit == other.usCircuit
+        }
+
+        override fun hashCode(): Int {
+            return super.hashCode()
+        }
     }
 }
