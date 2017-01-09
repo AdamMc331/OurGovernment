@@ -1,5 +1,6 @@
 package com.adammcneilly.ourgovernment
 
+import com.adammcneilly.ourgovernment.models.BranchList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
 import com.adammcneilly.ourgovernment.rest.MockInterceptor
 import com.adammcneilly.ourgovernment.rest.OfficeManager
@@ -22,10 +23,12 @@ class TestOfficeManager {
 
     val api = OfficeManager()
     val officeTypeListSuccess: OfficeTypeList = api.gson.fromJson(OfficeTypeList().getSuccessJson()[0], OfficeTypeList::class.java)
+    val branchListSuccess: BranchList = api.gson.fromJson(BranchList().getSuccessJson()[0], BranchList::class.java)
 
     @Before
     fun setup() {
         api.registerMockResponse(GET_TYPES_PATH, OfficeTypeList())
+        api.registerMockResponse(GET_BRANCHES_PATH, BranchList())
     }
 
     @After
@@ -58,7 +61,33 @@ class TestOfficeManager {
         assertEquals(officeTypeListSuccess, officeTypeList)
     }
 
+    @Test
+    fun testGetBranches() {
+        api.setApiMode(MockInterceptor.APIMode.MOCK_SUCCESS)
+
+        val countdown = CountDownLatch(1)
+        var branchList: BranchList? = null
+
+        val call = api.getBranches()
+        call.enqueue(object : Callback<BranchList> {
+            override fun onFailure(call: Call<BranchList>?, t: Throwable?) {
+                t?.printStackTrace()
+                countdown.countDown()
+            }
+
+            override fun onResponse(call: Call<BranchList>?, response: Response<BranchList>?) {
+                branchList = response?.body()
+                countdown.countDown()
+            }
+        })
+        countdown.await()
+
+        assertNotNull(branchList)
+        assertEquals(branchListSuccess, branchList)
+    }
+
     companion object {
         val GET_TYPES_PATH = "/Office.getTypes"
+        val GET_BRANCHES_PATH = "/Office.getBranches"
     }
 }

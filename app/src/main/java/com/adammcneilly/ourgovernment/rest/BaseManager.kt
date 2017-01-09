@@ -35,6 +35,7 @@ open class BaseManager {
                 .registerTypeAdapter(OfficeTypeList::class.java, OfficeTypeList.OfficeTypeListDeserializer())
                 .registerTypeAdapter(CandidateList::class.java, CandidateList.CandidateListDeserializer())
                 .registerTypeAdapter(CandidateBio::class.java, CandidateBio.CandidateBioDeserializer())
+                .registerTypeAdapter(BranchList::class.java, BranchList.BranchListDeserializer())
                 .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
                 .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
                 .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
