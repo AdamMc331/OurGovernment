@@ -1,8 +1,6 @@
 package com.adammcneilly.ourgovernment.models
 
 import com.adammcneilly.ourgovernment.rest.BaseManager
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.Root
 import retrofit2.Response
 import java.io.IOException
 
@@ -12,9 +10,8 @@ import java.io.IOException
  *
  * Created by adam.mcneilly on 12/31/16.
  */
-@Root(strict=false)
 open class Error {
-    @field:Element var errorMessage = ""
+    var errorMessage = ""
 
     companion object {
         fun parseError(response: Response<*>?): Error {

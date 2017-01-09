@@ -6,6 +6,6 @@ package com.adammcneilly.ourgovernment.interfaces
  * Created by adam.mcneilly on 12/30/16.
  */
 interface MockableModel {
-    fun getSuccessXml(): List<String>
-    fun getFailureXml(): List<String>
+    fun getSuccessJson(): List<String>
+    fun getFailureJson(): List<String>
 }

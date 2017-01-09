@@ -1,8 +1,11 @@
 package com.adammcneilly.ourgovernment.models
 
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
-import org.simpleframework.xml.Root
+import com.google.gson.Gson
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -10,41 +13,67 @@ import java.util.*
  *
  * Created by adam.mcneilly on 12/26/16.
  */
-@Root(strict=false)
 open class StateList : BaseModel() {
-    @field:ElementList var list: ArrayList<StateList.State> = ArrayList()
+    @SerializedName("stateList.list.state")
+    var list: ArrayList<StateList.State> = ArrayList()
 
-    override fun getSuccessXml(): List<String> {
+    override fun getSuccessJson(): List<String> {
         return listOf(
-                "<stateList>" +
-                    "<generalInfo>" +
-                        "<title>Project Vote Smart - States</title>" +
-                        "<linkBack>http://votesmart.org/mystate_statefacts.php</linkBack>" +
-                    "</generalInfo>" +
-                    "<list>" +
-                        "<state>" +
-                            "<stateId>MI</stateId>" +
-                            "<name>Michigan</name>" +
-                        "</state>" +
-                        "<state>" +
-                            "<stateId>OH</stateId>" +
-                            "<name>Ohio Samoa</name>" +
-                        "</state>" +
-                        "<state>" +
-                            "<stateId>FL</stateId>" +
-                            "<name>Florida</name>" +
-                        "</state>" +
-                    "</list>" +
-                "</stateList>")
+                "{" +
+                    "\"stateList\":{" +
+                        "\"generalInfo\": {" +
+                            "\"title\":\"Project Vote Smart - States\"," +
+                            "\"linkBack\":\"http:\\/\\/votesmart.org\\/mystate_statefacts.php\"" +
+                        "}," +
+                        "\"list\": {" +
+                            "\"state\":[" +
+                                "{\"stateId\":\"MI\",\"name\":\"Michigan\"}," +
+                                "{\"stateId\":\"OH\",\"name\":\"Ohio\"}," +
+                                "{\"stateId\":\"FL\",\"name\":\"Florida\"}" +
+                            "]" +
+                        "}" +
+                    "}" +
+                "}")
     }
 
-    @Root(strict=false)
     open class State : BaseModel() {
-        @field:Element var stateId: String = ""
-        @field:Element var name: String = ""
+        var stateId: String = ""
+        var name: String = ""
 
         override fun toString(): String {
             return name
+        }
+    }
+
+    open class StateListDeserializer : JsonDeserializer<StateList> {
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): StateList {
+            val response = StateList()
+
+            if (json != null && json.isJsonObject) {
+                val root = json.asJsonObject
+
+                if (root.has(STATE_LIST) && root.get(STATE_LIST).isJsonObject) {
+                    val stateList = root.get(STATE_LIST).asJsonObject
+
+                    if(stateList.has(LIST) && stateList.get(LIST).isJsonObject) {
+                        val listObj = stateList.get(LIST).asJsonObject
+
+                        if (listObj.has(STATE) && listObj.get(STATE).isJsonArray) {
+                            val stateArray = listObj.get(STATE).asJsonArray
+
+                            stateArray.mapTo(response.list) { Gson().fromJson(it, State::class.java) }
+                        }
+                    }
+                }
+            }
+
+            return response
+        }
+
+        companion object {
+            private val STATE_LIST = "stateList"
+            private val LIST = "list"
+            private val STATE = "state"
         }
     }
 }

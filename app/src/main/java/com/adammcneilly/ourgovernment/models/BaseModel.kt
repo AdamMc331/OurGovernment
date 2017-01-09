@@ -8,11 +8,11 @@ import com.adammcneilly.ourgovernment.interfaces.MockableModel
  * Created by adam.mcneilly on 12/30/16.
  */
 open class BaseModel : MockableModel {
-    override fun getSuccessXml(): List<String> {
+    override fun getSuccessJson(): List<String> {
         return listOf("")
     }
 
-    override fun getFailureXml(): List<String> {
+    override fun getFailureJson(): List<String> {
         return listOf("")
     }
 }

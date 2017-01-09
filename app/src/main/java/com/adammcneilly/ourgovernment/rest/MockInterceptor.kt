@@ -39,15 +39,12 @@ open class MockInterceptor : Interceptor {
         var httpCode: Int = HttpURLConnection.HTTP_OK
         var body: String = ""
 
-        when (apiMode) {
-            APIMode.MOCK_SUCCESS -> {
-                body = model.getSuccessXml().first()
-                httpCode = HttpURLConnection.HTTP_OK
-            }
-            APIMode.MOCK_ERROR -> {
-                body = model.getFailureXml().first()
-                httpCode = HttpURLConnection.HTTP_NOT_FOUND
-            }
+        if (apiMode == APIMode.MOCK_SUCCESS) {
+            body = model.getSuccessJson().first()
+            httpCode = HttpURLConnection.HTTP_OK
+        } else if (apiMode == APIMode.MOCK_ERROR) {
+            body = model.getFailureJson().first()
+            httpCode = HttpURLConnection.HTTP_NOT_FOUND
         }
 
         return Response.Builder()

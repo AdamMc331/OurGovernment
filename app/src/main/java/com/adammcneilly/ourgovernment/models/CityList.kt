@@ -1,8 +1,5 @@
 package com.adammcneilly.ourgovernment.models
 
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
-import org.simpleframework.xml.Root
 import java.util.*
 
 /**
@@ -10,11 +7,10 @@ import java.util.*
  *
  * Created by adam.mcneilly on 12/31/16.
  */
-@Root(strict=false)
 open class CityList : BaseModel() {
-    @field:ElementList(entry="city", inline=true) var list: ArrayList<CityList.City> = ArrayList()
+    var list: ArrayList<CityList.City> = ArrayList()
 
-    override fun getSuccessXml(): List<String> {
+    override fun getSuccessJson(): List<String> {
         return listOf(
                 "<cities>" +
                     "<generalInfo>" +
@@ -39,11 +35,10 @@ open class CityList : BaseModel() {
                 "</cities>")
     }
 
-    @Root(strict=false)
     open class City : BaseModel() {
-        @field:Element var localId = 0
-        @field:Element var name = ""
-        @field:Element var url = ""
+        var localId = 0
+        var name = ""
+        var url = ""
 
         override fun toString(): String {
             return name

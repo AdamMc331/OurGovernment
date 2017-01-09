@@ -2,12 +2,13 @@ package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.BuildConfig
 import com.adammcneilly.ourgovernment.interfaces.MockableModel
+import com.adammcneilly.ourgovernment.models.State
+import com.adammcneilly.ourgovernment.models.StateList
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.simpleframework.xml.convert.AnnotationStrategy
-import org.simpleframework.xml.core.Persister
 import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 /**
@@ -29,11 +30,13 @@ open class BaseManager {
                 .addInterceptor(ApiKeyInterceptor())
                 .build()
 
-        val strategy = AnnotationStrategy()
-        val serializer = Persister(strategy)
+        val gson = GsonBuilder()
+                .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
+                .registerTypeAdapter(State::class.java, State.StateDeserializer())
+                .create()
 
         retrofit = Retrofit.Builder()
-                .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl("http://api.votesmart.org/")
                 .client(client)
                 .build()

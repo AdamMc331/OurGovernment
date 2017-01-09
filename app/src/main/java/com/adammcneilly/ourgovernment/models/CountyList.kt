@@ -1,8 +1,5 @@
 package com.adammcneilly.ourgovernment.models
 
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
-import org.simpleframework.xml.Root
 import java.util.*
 
 /**
@@ -10,11 +7,10 @@ import java.util.*
  *
  * Created by adam.mcneilly on 12/28/16.
  */
-@Root(strict=false)
 open class CountyList : BaseModel() {
-    @field:ElementList(entry="county", inline=true) var list: ArrayList<CountyList.County> = ArrayList()
+    var list: ArrayList<CountyList.County> = ArrayList()
 
-    override fun getSuccessXml(): List<String> {
+    override fun getSuccessJson(): List<String> {
         return listOf(
                 "<counties>" +
                     "<generalInfo>" +
@@ -39,18 +35,17 @@ open class CountyList : BaseModel() {
                 "</counties>")
     }
 
-    override fun getFailureXml(): List<String> {
+    override fun getFailureJson(): List<String> {
         return listOf(
                 "<error>" +
                     "<errorMessage>This probably shouldn't have happened.</errorMessage>" +
                 "</error>")
     }
 
-    @Root(strict=false)
     open class County : BaseModel() {
-        @field:Element var localId = 0
-        @field:Element var name = ""
-        @field:Element var url = ""
+        var localId = 0
+        var name = ""
+        var url = ""
 
         override fun toString(): String {
             return name
