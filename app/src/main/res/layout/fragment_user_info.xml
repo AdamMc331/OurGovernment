@@ -7,8 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_info_explanation"
-        android:padding="@dimen/single_margin"/>
+        android:padding="@dimen/single_margin"
+        android:text="@string/user_info_explanation" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -19,6 +19,8 @@
             android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
             android:hint="@string/state" />
     </android.support.design.widget.TextInputLayout>
 
@@ -31,6 +33,9 @@
             android:id="@+id/county"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:enabled="false"
             android:hint="@string/county" />
     </android.support.design.widget.TextInputLayout>
 
@@ -43,6 +48,9 @@
             android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:enabled="false"
             android:hint="@string/city" />
     </android.support.design.widget.TextInputLayout>
 
@@ -63,6 +71,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/single_margin"
-        android:text="@string/submit"/>
+        android:text="@string/submit" />
 
 </LinearLayout>
