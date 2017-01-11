@@ -6,6 +6,7 @@ import com.adammcneilly.ourgovernment.models.CountyList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import rx.Observable
 
 /**
  * Handles all `Local` calls.
@@ -14,10 +15,10 @@ import retrofit2.http.Query
  */
 interface LocalService {
     @GET("Local.getCounties")
-    fun getCounties(@Query("stateId") stateId: String): Call<CountyList>
+    fun getCounties(@Query("stateId") stateId: String): Observable<CountyList>
 
     @GET("Local.getCities")
-    fun getCities(@Query("stateId") stateId: String): Call<CityList>
+    fun getCities(@Query("stateId") stateId: String): Observable<CityList>
 
     @GET("Local.getOfficials")
     fun getLocalOfficials(@Query("localId") localId: String): Call<CandidateList>

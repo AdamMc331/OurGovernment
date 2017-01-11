@@ -5,6 +5,7 @@ import com.adammcneilly.ourgovernment.models.StateList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import rx.Observable
 
 /**
  * Handles all `State` calls.
@@ -13,7 +14,7 @@ import retrofit2.http.Query
  */
 interface StateService {
     @GET("State.getStateIDs")
-    fun getStateIDs(): Call<StateList>
+    fun getStateIDs(): Observable<StateList>
 
     @GET("State.getState")
     fun getState(@Query("stateId") stateId: String): Call<State>

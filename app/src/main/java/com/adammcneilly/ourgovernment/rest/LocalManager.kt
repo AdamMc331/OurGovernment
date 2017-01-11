@@ -4,6 +4,7 @@ import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import retrofit2.Call
+import rx.Observable
 
 /**
  * Manages all of the Local calls.
@@ -13,11 +14,11 @@ import retrofit2.Call
 class LocalManager : BaseManager() {
     val localService: LocalService = retrofit.create(LocalService::class.java)
 
-    fun getCounties(stateId: String): Call<CountyList> {
+    fun getCounties(stateId: String): Observable<CountyList> {
         return localService.getCounties(stateId)
     }
 
-    fun getCities(stateId: String): Call<CityList> {
+    fun getCities(stateId: String): Observable<CityList> {
         return localService.getCities(stateId)
     }
 

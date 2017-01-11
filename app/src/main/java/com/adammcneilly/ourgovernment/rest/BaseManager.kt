@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
@@ -32,11 +33,11 @@ open class BaseManager {
                 .build()
 
         gson = GsonBuilder()
+                .registerTypeAdapter(OfficeBranchList::class.java, OfficeBranchList.OfficeBranchListDeserializer())
                 .registerTypeAdapter(OfficeLevelList::class.java, OfficeLevelList.OfficeLevelListDeserializer())
                 .registerTypeAdapter(OfficeTypeList::class.java, OfficeTypeList.OfficeTypeListDeserializer())
                 .registerTypeAdapter(CandidateList::class.java, CandidateList.CandidateListDeserializer())
                 .registerTypeAdapter(CandidateBio::class.java, CandidateBio.CandidateBioDeserializer())
-                .registerTypeAdapter(OfficeBranchList::class.java, OfficeBranchList.OfficeBranchListDeserializer())
                 .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
                 .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
                 .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
@@ -44,6 +45,7 @@ open class BaseManager {
                 .create()
 
         retrofit = Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl("http://api.votesmart.org/")
                 .client(client)

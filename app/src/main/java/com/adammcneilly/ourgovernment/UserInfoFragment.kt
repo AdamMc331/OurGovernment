@@ -3,7 +3,6 @@ package com.adammcneilly.ourgovernment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,8 @@ import com.adammcneilly.ourgovernment.models.StateList
 import com.adammcneilly.ourgovernment.rest.LocalManager
 import com.adammcneilly.ourgovernment.rest.StateManager
 import kotlinx.android.synthetic.main.fragment_user_info.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Fragment to collect user's information.
@@ -30,6 +28,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
 
     val stateManager = StateManager()
     var stateList = StateList()
+        set(value) {
+            field = value
+            stateList.sortBy { it.name }
+            selectedState = stateList.firstOrNull()
+            state?.isEnabled = true
+        }
     var selectedState: StateList.State? = null
         set(value) {
             field = value
@@ -40,6 +44,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
 
     val localManager = LocalManager()
     var countyList = CountyList()
+        set(value) {
+            field = value
+            countyList.sortBy { it.name }
+            selectedCounty = countyList.firstOrNull()
+            county?.isEnabled = true
+        }
     var selectedCounty: CountyList.County? = null
         set(value) {
             field = value
@@ -47,6 +57,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
         }
 
     var cityList = CityList()
+        set(value) {
+            field = value
+            cityList.sortBy { it.name }
+            selectedCity = cityList.firstOrNull()
+            city?.isEnabled = true
+        }
     var selectedCity: CityList.City? = null
         set(value) {
             field = value
@@ -78,58 +94,24 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getStates() {
-        //TODO:
-        val stateCall = stateManager.getStateIDs()
-        stateCall.enqueue(object : Callback<StateList> {
-            override fun onResponse(call: Call<StateList>?, response: Response<StateList>?) {
-                if (response?.isSuccessful.orFalse()) {
-                    stateList = response!!.body()
-                    stateList.sortBy { it.name }
-                    selectedState = stateList.firstOrNull()
-                    state?.isEnabled = true
-                }
-            }
-
-            override fun onFailure(call: Call<StateList>?, t: Throwable?) {
-                Log.e("UserInfoFragment", t?.message, t)
-            }
-        })
+        stateManager.getStateIDs()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { stateList = it }
     }
 
     private fun getCounties() {
-        val countyCall = localManager.getCounties(selectedState?.stateId.orEmpty())
-        countyCall.enqueue(object : Callback<CountyList> {
-            override fun onFailure(call: Call<CountyList>?, t: Throwable?) {
-                Log.e("UserInfoFragment", t?.message, t)
-            }
-
-            override fun onResponse(call: Call<CountyList>?, response: Response<CountyList>?) {
-                if (response?.isSuccessful.orFalse()) {
-                    countyList = response!!.body()
-                    countyList.sortBy { it.name }
-                    selectedCounty = countyList.firstOrNull()
-                    county?.isEnabled = true
-                }
-            }
-        })
+        localManager.getCounties(selectedState?.stateId.orEmpty())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { countyList = it }
     }
 
     private fun getCities() {
-        val countyCall = localManager.getCities(selectedState?.stateId.orEmpty())
-        countyCall.enqueue(object : Callback<CityList> {
-            override fun onFailure(call: Call<CityList>?, t: Throwable?) {
-                Log.e("UserInfoFragment", t?.message, t)
-            }
-
-            override fun onResponse(call: Call<CityList>?, response: Response<CityList>?) {
-                if (response?.isSuccessful.orFalse()) {
-                    cityList = response!!.body()
-                    cityList.sortBy { it.name }
-                    selectedCity = cityList.firstOrNull()
-                    city?.isEnabled = true
-                }
-            }
-        })
+        localManager.getCities(selectedState?.stateId.orEmpty())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { cityList = it }
     }
 
     override fun onClick(v: View?) {
@@ -169,9 +151,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
     private fun validateInput(): Boolean {
         var isValid = true
 
-        if (selectedState == null) {
-            isValid = false
-        }
+        if (selectedState == null) { isValid = false }
 
         if (zip_code.length() != 5 && zip_code.length() != 9) {
             isValid = false
