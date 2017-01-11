@@ -1,7 +1,7 @@
 package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.CandidateList
-import retrofit2.Call
+import rx.Observable
 
 /**
  * Makes all Officials calls.
@@ -11,11 +11,11 @@ import retrofit2.Call
 class OfficialsManager : BaseManager() {
     val officialsService: OfficialsService = retrofit.create(OfficialsService::class.java)
 
-    fun getByZip(zip5: String): Call<CandidateList> {
+    fun getByZip(zip5: String): Observable<CandidateList> {
         return getByZip(zip5, "")
     }
 
-    fun getByZip(zip5: String, zip4: String): Call<CandidateList> {
+    fun getByZip(zip5: String, zip4: String): Observable<CandidateList> {
         return officialsService.getByZip(zip5, zip4)
     }
 }

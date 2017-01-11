@@ -4,6 +4,7 @@ import com.adammcneilly.ourgovernment.models.OfficeBranchList
 import com.adammcneilly.ourgovernment.models.OfficeLevelList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
 import retrofit2.Call
+import rx.Observable
 
 /**
  * Handles all of the Office calls.
@@ -13,15 +14,15 @@ import retrofit2.Call
 class OfficeManager : BaseManager() {
     private val officeService: OfficeService = retrofit.create(OfficeService::class.java)
     
-    fun getTypes(): Call<OfficeTypeList> {
+    fun getTypes(): Observable<OfficeTypeList> {
         return officeService.getTypes()
     }
 
-    fun getBranches(): Call<OfficeBranchList> {
+    fun getBranches(): Observable<OfficeBranchList> {
         return officeService.getBranches()
     }
 
-    fun getLevels(): Call<OfficeLevelList> {
+    fun getLevels(): Observable<OfficeLevelList> {
         return officeService.getLevels()
     }
 }

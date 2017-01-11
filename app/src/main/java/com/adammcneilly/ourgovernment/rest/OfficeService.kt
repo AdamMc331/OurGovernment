@@ -3,8 +3,8 @@ package com.adammcneilly.ourgovernment.rest
 import com.adammcneilly.ourgovernment.models.OfficeBranchList
 import com.adammcneilly.ourgovernment.models.OfficeLevelList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
-import retrofit2.Call
 import retrofit2.http.GET
+import rx.Observable
 
 /**
  * Handles all office calls.
@@ -13,11 +13,11 @@ import retrofit2.http.GET
  */
 interface OfficeService {
     @GET("Office.getTypes")
-    fun getTypes(): Call<OfficeTypeList>
+    fun getTypes(): Observable<OfficeTypeList>
 
     @GET("Office.getBranches")
-    fun getBranches(): Call<OfficeBranchList>
+    fun getBranches(): Observable<OfficeBranchList>
 
     @GET("Office.getLevels")
-    fun getLevels(): Call<OfficeLevelList>
+    fun getLevels(): Observable<OfficeLevelList>
 }

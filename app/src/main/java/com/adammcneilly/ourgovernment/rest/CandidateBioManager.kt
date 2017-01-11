@@ -1,7 +1,7 @@
 package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.CandidateBio
-import retrofit2.Call
+import rx.Observable
 
 /**
  * Handles all CandidateBio calls.
@@ -11,7 +11,7 @@ import retrofit2.Call
 class CandidateBioManager : BaseManager() {
     val candidateBioService: CandidateBioService = retrofit.create(CandidateBioService::class.java)
 
-    fun getBio(candidateId: String): Call<CandidateBio> {
+    fun getBio(candidateId: String): Observable<CandidateBio> {
         return candidateBioService.getBio(candidateId)
     }
 }

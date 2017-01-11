@@ -2,7 +2,6 @@ package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.State
 import com.adammcneilly.ourgovernment.models.StateList
-import retrofit2.Call
 import rx.Observable
 
 /**
@@ -17,7 +16,7 @@ class StateManager : BaseManager() {
         return stateService.getStateIDs()
     }
 
-    fun getState(stateId: String): Call<State> {
+    fun getState(stateId: String): Observable<State> {
         return stateService.getState(stateId)
     }
 }

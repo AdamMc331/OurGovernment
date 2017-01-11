@@ -3,7 +3,6 @@ package com.adammcneilly.ourgovernment.rest
 import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
-import retrofit2.Call
 import rx.Observable
 
 /**
@@ -22,7 +21,7 @@ class LocalManager : BaseManager() {
         return localService.getCities(stateId)
     }
 
-    fun getLocalOfficials(localId: String): Call<CandidateList> {
+    fun getLocalOfficials(localId: String): Observable<CandidateList> {
         return localService.getLocalOfficials(localId)
     }
 }

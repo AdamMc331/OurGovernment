@@ -1,9 +1,9 @@
 package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.CandidateBio
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import rx.Observable
 
 /**
  * Handles all `CandidateBio` calls.
@@ -12,5 +12,5 @@ import retrofit2.http.Query
  */
 interface CandidateBioService {
     @GET("CandidateBio.getBio")
-    fun getBio(@Query("candidateId") candidateId: String): Call<CandidateBio>
+    fun getBio(@Query("candidateId") candidateId: String): Observable<CandidateBio>
 }
