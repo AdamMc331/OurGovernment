@@ -69,7 +69,7 @@ open class CountyList : ProxyList<CountyList.County>() {
     }
 
     open class County : BaseModel() {
-        var localId = 0
+        var localId = ""
         var name = ""
         var url = ""
 

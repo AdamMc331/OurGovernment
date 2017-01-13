@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -192,7 +194,14 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             }
             R.id.submit -> {
                 if (validateInput()) {
-                    Toast.makeText(context, "Everything is valid!", Toast.LENGTH_SHORT).show()
+                    val editor = context.getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE).edit()
+                    editor.putString(Constants.SharedPreferences.USER_STATE, selectedState?.stateId)
+                    editor.putString(Constants.SharedPreferences.USER_COUNTY, selectedCounty?.localId)
+                    editor.putString(Constants.SharedPreferences.USER_CITY, selectedCity?.localId)
+                    editor.putString(Constants.SharedPreferences.USER_ZIP, zipCode?.text.toString())
+                    editor.apply()
+
+                    //TODO: Where now?
                 }
             }
         }

@@ -69,7 +69,7 @@ open class CityList : ProxyList<CityList.City>() {
     }
 
     open class City : BaseModel() {
-        var localId = 0
+        var localId = ""
         var name = ""
         var url = ""
 
