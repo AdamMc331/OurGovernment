@@ -119,6 +119,15 @@ open class CandidateList : ProxyList<CandidateList.Candidate>() {
         var runningMateId = ""
         var runningMateName = ""
 
+        val fullName: String
+            get() {
+                var name = firstName + " "
+                if (middleName.isNotEmpty()) name += middleName + " "
+                name += lastName
+
+                return name
+            }
+
         override fun equals(other: Any?): Boolean {
             return (other is Candidate)
                     && candidateId == other.candidateId
