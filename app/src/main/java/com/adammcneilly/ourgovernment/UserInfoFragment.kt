@@ -1,14 +1,17 @@
 package com.adammcneilly.ourgovernment
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.StateList
@@ -201,7 +204,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                     editor.putString(Constants.SharedPreferences.USER_ZIP, zipCode?.text.toString())
                     editor.apply()
 
-                    //TODO: Where now?
+                    val drawerIntent = Intent(context, DrawerActivity::class.java)
+                    startActivity(drawerIntent)
                 }
             }
         }

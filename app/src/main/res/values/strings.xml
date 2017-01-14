@@ -6,4 +6,10 @@
     <string name="county">County</string>
     <string name="city">City</string>
     <string name="user_info_explanation">Before we begin, let\'s collect some basic information about where you life (or the area you care most about). This will allow us to streamline app features by providing you with the most relevant government information.</string>
+    <string name="title_activity_drawer">Our Government</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
