@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.rest.LocalManager
 import rx.Subscriber
@@ -23,6 +24,7 @@ class CountyOfficialFragment : Fragment() {
 
     var localId: String = ""
     var officialRecyclerView: RecyclerView? = null
+    var progressBar: ProgressBar? = null
     val localManager = LocalManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,7 @@ class CountyOfficialFragment : Fragment() {
         val view = inflater?.inflate(R.layout.fragment_county_officials, container, false)
 
         officialRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
+        progressBar = view?.findViewById(R.id.progress_bar) as? ProgressBar
 
         // Setup recycler view
         val adapter = OfficialAdapter()
@@ -50,6 +53,8 @@ class CountyOfficialFragment : Fragment() {
     }
 
     private fun getOfficials() {
+        progressBar?.visibility = View.VISIBLE
+
         localManager.getLocalOfficials(localId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +64,7 @@ class CountyOfficialFragment : Fragment() {
                     }
 
                     override fun onCompleted() {
-                        //TODO: ProgressBar
+                        progressBar?.visibility = View.GONE
                     }
 
                     override fun onError(e: Throwable?) {
