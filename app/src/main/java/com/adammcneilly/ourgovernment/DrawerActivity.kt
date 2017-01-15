@@ -2,16 +2,13 @@ package com.adammcneilly.ourgovernment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.view.View
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -47,13 +44,20 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val id = item.itemId
 
         val prefs = getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE)
+        val localId = prefs.getString(Constants.SharedPreferences.USER_COUNTY, "")
+
+        var fragment: Fragment? = null
 
         when (id) {
-            R.id.nav_county_officials -> { supportFragmentManager.beginTransaction().replace(R.id.container, CountyOfficialFragment.newInstance(prefs.getString(Constants.SharedPreferences.USER_COUNTY, ""))).commit() }
+            R.id.nav_county_officials -> { fragment = CountyOfficialFragment.newInstance(localId) }
             R.id.nav_slideshow -> { }
             R.id.nav_manage -> { }
             R.id.nav_share -> { }
             R.id.nav_send -> { }
+        }
+
+        if (fragment != null) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
         }
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout

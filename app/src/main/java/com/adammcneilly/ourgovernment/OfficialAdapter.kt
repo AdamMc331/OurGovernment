@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.adammcneilly.ourgovernment.models.CandidateList
-import java.util.*
 
 /**
  * Displays a list of officials.
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class OfficialAdapter() : RecyclerView.Adapter<OfficialAdapter.OfficialViewHolder>() {
+class OfficialAdapter : RecyclerView.Adapter<OfficialAdapter.OfficialViewHolder>() {
 
     var officials: CandidateList = CandidateList()
 
