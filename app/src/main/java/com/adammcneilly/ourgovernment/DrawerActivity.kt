@@ -49,7 +49,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         var fragment: Fragment? = null
 
         when (id) {
-            R.id.nav_county_officials -> { fragment = CountyOfficialFragment.newInstance(localId) }
+            R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(localId, LocalOfficialsFragment.LocalType.COUNTY)
             R.id.nav_slideshow -> { }
             R.id.nav_manage -> { }
             R.id.nav_share -> { }

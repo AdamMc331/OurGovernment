@@ -12,7 +12,7 @@ import com.adammcneilly.ourgovernment.models.CandidateList
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class OfficialAdapter : RecyclerView.Adapter<OfficialAdapter.OfficialViewHolder>() {
+class OfficialsAdapter : RecyclerView.Adapter<OfficialsAdapter.OfficialViewHolder>() {
 
     var officials: CandidateList = CandidateList()
 

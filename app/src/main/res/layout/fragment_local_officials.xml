@@ -28,13 +28,12 @@
             android:padding="@dimen/half_margin">
 
             <EditText
-                android:id="@+id/county"
+                android:id="@+id/local_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:enabled="false"
-                android:focusable="false"
-                android:hint="@string/county" />
+                android:focusable="false" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.RecyclerView

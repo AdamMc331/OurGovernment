@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ProgressBar
 import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.rest.LocalManager
@@ -20,10 +21,17 @@ import timber.log.Timber
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class CountyOfficialFragment : Fragment() {
+class LocalOfficialsFragment : Fragment() {
+
+    enum class LocalType {
+        COUNTY,
+        CITY
+    }
 
     var localId: String = ""
-    var officialRecyclerView: RecyclerView? = null
+    var localType: LocalType = LocalType.COUNTY
+    var localEditText: EditText? = null
+    var officialsRecyclerView: RecyclerView? = null
     var progressBar: ProgressBar? = null
     val localManager = LocalManager()
 
@@ -31,21 +39,29 @@ class CountyOfficialFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         localId = arguments.getString(ARG_LOCAL_ID, "")
+        localType = arguments.getSerializable(ARG_LOCAL_TYPE) as LocalType
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_county_officials, container, false)
+        val view = inflater?.inflate(R.layout.fragment_local_officials, container, false)
 
-        officialRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
+        localEditText = view?.findViewById(R.id.local_edit_text) as? EditText
+        officialsRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
         progressBar = view?.findViewById(R.id.progress_bar) as? ProgressBar
 
         // Setup recycler view
-        val adapter = OfficialAdapter()
+        val adapter = OfficialsAdapter()
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-        officialRecyclerView?.layoutManager = layoutManager
-        officialRecyclerView?.adapter = adapter
+        officialsRecyclerView?.layoutManager = layoutManager
+        officialsRecyclerView?.adapter = adapter
+
+        // Set hint
+        when (localType) {
+            LocalType.COUNTY -> localEditText?.setHint(R.string.county)
+            LocalType.CITY -> localEditText?.setHint(R.string.city)
+        }
 
         getOfficials()
 
@@ -60,7 +76,7 @@ class CountyOfficialFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<CandidateList>() {
                     override fun onNext(t: CandidateList?) {
-                        (officialRecyclerView?.adapter as? OfficialAdapter)?.swapItems(t)
+                        (officialsRecyclerView?.adapter as? OfficialsAdapter)?.swapItems(t)
                     }
 
                     override fun onCompleted() {
@@ -75,12 +91,14 @@ class CountyOfficialFragment : Fragment() {
 
     companion object {
         private val ARG_LOCAL_ID = "localId"
+        private val ARG_LOCAL_TYPE = "localType"
 
-        fun newInstance(localId: String): CountyOfficialFragment {
+        fun newInstance(localId: String, localType: LocalType): LocalOfficialsFragment {
             val args = Bundle()
             args.putString(ARG_LOCAL_ID, localId)
+            args.putSerializable(ARG_LOCAL_TYPE, localType)
 
-            val fragment = CountyOfficialFragment()
+            val fragment = LocalOfficialsFragment()
             fragment.arguments = args
 
             return fragment
