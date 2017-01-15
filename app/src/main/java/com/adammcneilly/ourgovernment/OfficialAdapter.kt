@@ -31,6 +31,7 @@ class OfficialAdapter() : RecyclerView.Adapter<OfficialAdapter.OfficialViewHolde
 
     fun swapItems(candidateList: CandidateList?) {
         this.officials = candidateList ?: CandidateList()
+        notifyDataSetChanged()
     }
 
     class OfficialViewHolder(view: View) : RecyclerView.ViewHolder(view) {

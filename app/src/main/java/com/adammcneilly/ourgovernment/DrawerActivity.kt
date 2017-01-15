@@ -1,5 +1,6 @@
 package com.adammcneilly.ourgovernment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -45,8 +46,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         // Handle navigation view item clicks here.
         val id = item.itemId
 
+        val prefs = getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE)
+
         when (id) {
-            R.id.nav_camera -> { }
+            R.id.nav_county_officials -> { supportFragmentManager.beginTransaction().replace(R.id.container, CountyOfficialFragment.newInstance(prefs.getString(Constants.SharedPreferences.USER_COUNTY, ""))).commit() }
             R.id.nav_slideshow -> { }
             R.id.nav_manage -> { }
             R.id.nav_share -> { }

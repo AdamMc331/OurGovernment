@@ -32,7 +32,7 @@ class CountyOfficialFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_user_info, container, false)
+        val view = inflater?.inflate(R.layout.fragment_county_officials, container, false)
 
         officialRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
 
