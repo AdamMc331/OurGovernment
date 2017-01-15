@@ -6,8 +6,8 @@
             android:id="@+id/nav_county_officials"
             android:title="@string/county_officials" />
         <item
-            android:id="@+id/nav_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_city_officials"
+            android:title="@string/city_officials" />
         <item
             android:id="@+id/nav_slideshow"
             android:title="Slideshow" />

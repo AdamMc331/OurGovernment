@@ -44,13 +44,14 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val id = item.itemId
 
         val prefs = getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE)
-        val localId = prefs.getString(Constants.SharedPreferences.USER_COUNTY, "")
+        val countyId = prefs.getString(Constants.SharedPreferences.USER_COUNTY, "")
+        val cityId = prefs.getString(Constants.SharedPreferences.USER_CITY, "")
 
         var fragment: Fragment? = null
 
         when (id) {
-            R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(localId, LocalOfficialsFragment.LocalType.COUNTY)
-            R.id.nav_slideshow -> { }
+            R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(countyId, LocalOfficialsFragment.LocalType.COUNTY)
+            R.id.nav_city_officials -> fragment = LocalOfficialsFragment.newInstance(cityId, LocalOfficialsFragment.LocalType.CITY)
             R.id.nav_manage -> { }
             R.id.nav_share -> { }
             R.id.nav_send -> { }
