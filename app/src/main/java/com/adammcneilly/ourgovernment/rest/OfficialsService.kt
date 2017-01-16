@@ -14,4 +14,7 @@ interface OfficialsService {
 
     @GET("Officials.getByZip")
     fun getByZip(@Query("zip5") zip5: String, @Query("zip4") zip4: String): Observable<CandidateList>
+
+    @GET("Officials.getStatewide")
+    fun getStatewideOfficials(@Query("stateId") stateId: String): Observable<CandidateList>
 }

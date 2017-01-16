@@ -18,4 +18,8 @@ class OfficialsManager : BaseManager() {
     fun getByZip(zip5: String, zip4: String): Observable<CandidateList> {
         return officialsService.getByZip(zip5, zip4)
     }
+
+    fun getStatewideOfficials(stateId: String): Observable<CandidateList> {
+        return officialsService.getStatewideOfficials(stateId)
+    }
 }

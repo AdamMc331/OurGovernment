@@ -9,8 +9,8 @@
             android:id="@+id/nav_city_officials"
             android:title="@string/city_officials" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_state_officials"
+            android:title="@string/state_officials" />
         <item
             android:id="@+id/nav_manage"
             android:title="Tools" />
