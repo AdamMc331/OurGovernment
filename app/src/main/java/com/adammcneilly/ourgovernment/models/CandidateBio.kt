@@ -137,6 +137,7 @@ class CandidateBio : BaseModel() {
             return (other is Candidate)
                     && candidateId == other.candidateId
                     && firstName == other.firstName
+                    && lastName == other.lastName
                     && crpID == other.crpID
                     && nickName == other.nickName
                     && middleName == other.middleName
