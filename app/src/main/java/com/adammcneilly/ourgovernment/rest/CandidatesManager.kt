@@ -1,7 +1,7 @@
 package com.adammcneilly.ourgovernment.rest
 
 import com.adammcneilly.ourgovernment.models.CandidateList
-import com.adammcneilly.ourgovernment.year
+import com.adammcneilly.ourgovernment.utils.year
 import rx.Observable
 import java.util.*
 

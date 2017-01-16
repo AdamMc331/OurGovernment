@@ -1,4 +1,4 @@
-package com.adammcneilly.ourgovernment
+package com.adammcneilly.ourgovernment.utils
 
 /**
  * Utility methods for certain optional types.

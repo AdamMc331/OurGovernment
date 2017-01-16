@@ -1,4 +1,4 @@
-package com.adammcneilly.ourgovernment
+package com.adammcneilly.ourgovernment.activities
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,10 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import com.adammcneilly.ourgovernment.Constants
+import com.adammcneilly.ourgovernment.fragments.LocalOfficialsFragment
+import com.adammcneilly.ourgovernment.R
+import com.adammcneilly.ourgovernment.fragments.StateOfficialsFragment
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 

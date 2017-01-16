@@ -1,4 +1,4 @@
-package com.adammcneilly.ourgovernment
+package com.adammcneilly.ourgovernment.utils
 
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.adammcneilly.ourgovernment
+package com.adammcneilly.ourgovernment.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import com.adammcneilly.ourgovernment.Constants
+import com.adammcneilly.ourgovernment.R
+import com.adammcneilly.ourgovernment.activities.DrawerActivity
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.StateList

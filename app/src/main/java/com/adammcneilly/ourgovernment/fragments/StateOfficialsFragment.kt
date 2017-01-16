@@ -1,4 +1,4 @@
-package com.adammcneilly.ourgovernment
+package com.adammcneilly.ourgovernment.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,45 +7,37 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ProgressBar
+import com.adammcneilly.ourgovernment.adapters.OfficialsAdapter
+import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.models.CandidateList
-import com.adammcneilly.ourgovernment.rest.LocalManager
+import com.adammcneilly.ourgovernment.rest.OfficialsManager
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
 /**
- * Fragment that displays a list of local officials for a county.
+ * Fragment that displays a list of state officials for a.
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class LocalOfficialsFragment : Fragment() {
+class StateOfficialsFragment : Fragment() {
 
-    enum class LocalType {
-        COUNTY,
-        CITY
-    }
-
-    var localId: String = ""
-    var localType: LocalType = LocalType.COUNTY
-    var localEditText: EditText? = null
+    var stateId: String = ""
     var officialsRecyclerView: RecyclerView? = null
     var progressBar: ProgressBar? = null
-    val localManager = LocalManager()
+    val officialsManager = OfficialsManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localId = arguments.getString(ARG_LOCAL_ID, "")
-        localType = arguments.getSerializable(ARG_LOCAL_TYPE) as LocalType
+        stateId = arguments.getString(ARG_STATE_ID, "")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_local_officials, container, false)
+        val view = inflater?.inflate(R.layout.fragment_state_officials, container, false)
 
-        localEditText = view?.findViewById(R.id.local_edit_text) as? EditText
         officialsRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
         progressBar = view?.findViewById(R.id.progress_bar) as? ProgressBar
 
@@ -57,12 +49,6 @@ class LocalOfficialsFragment : Fragment() {
         officialsRecyclerView?.layoutManager = layoutManager
         officialsRecyclerView?.adapter = adapter
 
-        // Set hint
-        when (localType) {
-            LocalType.COUNTY -> localEditText?.setHint(R.string.county)
-            LocalType.CITY -> localEditText?.setHint(R.string.city)
-        }
-
         getOfficials()
 
         return view
@@ -71,11 +57,12 @@ class LocalOfficialsFragment : Fragment() {
     private fun getOfficials() {
         progressBar?.visibility = View.VISIBLE
 
-        localManager.getLocalOfficials(localId)
+        officialsManager.getStatewideOfficials(stateId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<CandidateList>() {
                     override fun onNext(t: CandidateList?) {
+                        t?.sortBy { it.officeId.toInt() }
                         (officialsRecyclerView?.adapter as? OfficialsAdapter)?.swapItems(t)
                     }
 
@@ -90,15 +77,13 @@ class LocalOfficialsFragment : Fragment() {
     }
 
     companion object {
-        private val ARG_LOCAL_ID = "localId"
-        private val ARG_LOCAL_TYPE = "localType"
+        private val ARG_STATE_ID = "stateId"
 
-        fun newInstance(localId: String, localType: LocalType): LocalOfficialsFragment {
+        fun newInstance(stateId: String): StateOfficialsFragment {
             val args = Bundle()
-            args.putString(ARG_LOCAL_ID, localId)
-            args.putSerializable(ARG_LOCAL_TYPE, localType)
+            args.putString(ARG_STATE_ID, stateId)
 
-            val fragment = LocalOfficialsFragment()
+            val fragment = StateOfficialsFragment()
             fragment.arguments = args
 
             return fragment
