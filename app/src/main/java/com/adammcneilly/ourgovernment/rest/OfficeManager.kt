@@ -3,7 +3,6 @@ package com.adammcneilly.ourgovernment.rest
 import com.adammcneilly.ourgovernment.models.OfficeBranchList
 import com.adammcneilly.ourgovernment.models.OfficeLevelList
 import com.adammcneilly.ourgovernment.models.OfficeTypeList
-import retrofit2.Call
 import rx.Observable
 
 /**

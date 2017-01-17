@@ -218,7 +218,7 @@ class UserInfoFragment : BaseFragment(), View.OnClickListener {
     private fun validateInput(): Boolean {
         var isValid = true
 
-        if (selectedState == null) { isValid = false }
+        if (selectedState == null) isValid = false
 
         if (zipCode?.length() != 5 && zipCode?.length() != 9) {
             isValid = false

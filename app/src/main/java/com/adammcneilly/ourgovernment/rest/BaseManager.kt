@@ -20,8 +20,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 open class BaseManager {
     private val loggingInterceptor = HttpLoggingInterceptor()
     private val mockInterceptor = MockInterceptor()
-    val gson: Gson
     val retrofit: Retrofit
+
+    val gson: Gson = GsonBuilder()
+            .registerTypeAdapter(OfficeBranchList::class.java, OfficeBranchList.OfficeBranchListDeserializer())
+            .registerTypeAdapter(OfficeLevelList::class.java, OfficeLevelList.OfficeLevelListDeserializer())
+            .registerTypeAdapter(OfficeTypeList::class.java, OfficeTypeList.OfficeTypeListDeserializer())
+            .registerTypeAdapter(CandidateList::class.java, CandidateList.CandidateListDeserializer())
+            .registerTypeAdapter(CandidateBio::class.java, CandidateBio.CandidateBioDeserializer())
+            .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
+            .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
+            .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
+            .registerTypeAdapter(State::class.java, State.StateDeserializer())
+            .create()
 
     init {
         if (BuildConfig.DEBUG) loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -31,18 +42,6 @@ open class BaseManager {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(ApiKeyInterceptor())
                 .build()
-
-        gson = GsonBuilder()
-                .registerTypeAdapter(OfficeBranchList::class.java, OfficeBranchList.OfficeBranchListDeserializer())
-                .registerTypeAdapter(OfficeLevelList::class.java, OfficeLevelList.OfficeLevelListDeserializer())
-                .registerTypeAdapter(OfficeTypeList::class.java, OfficeTypeList.OfficeTypeListDeserializer())
-                .registerTypeAdapter(CandidateList::class.java, CandidateList.CandidateListDeserializer())
-                .registerTypeAdapter(CandidateBio::class.java, CandidateBio.CandidateBioDeserializer())
-                .registerTypeAdapter(CountyList::class.java, CountyList.CountyListDeserializer())
-                .registerTypeAdapter(StateList::class.java, StateList.StateListDeserializer())
-                .registerTypeAdapter(CityList::class.java, CityList.CityListDeserializer())
-                .registerTypeAdapter(State::class.java, State.StateDeserializer())
-                .create()
 
         retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

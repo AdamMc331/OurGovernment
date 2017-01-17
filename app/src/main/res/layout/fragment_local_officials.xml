@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:enabled="false"
-                android:focusable="false" />
+                android:focusable="false"
+                android:hint="" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.RecyclerView
