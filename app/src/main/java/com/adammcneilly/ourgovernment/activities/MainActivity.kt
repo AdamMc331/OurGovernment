@@ -1,11 +1,10 @@
 package com.adammcneilly.ourgovernment.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.fragments.UserInfoFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

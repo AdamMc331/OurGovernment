@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import com.adammcneilly.ourgovernment.Constants
 import com.adammcneilly.ourgovernment.R
+import com.adammcneilly.ourgovernment.activities.BaseActivity
 import com.adammcneilly.ourgovernment.activities.DrawerActivity
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
@@ -208,20 +208,15 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                     user.city = selectedCity
                     user.zipCode = zipCode?.text?.toString()
 
-                    saveUser(user)
+                    val baseActivity = activity as? BaseActivity
+                    baseActivity?.user = user
+                    baseActivity?.saveUser()
 
                     val drawerIntent = Intent(context, DrawerActivity::class.java)
                     startActivity(drawerIntent)
                 }
             }
         }
-    }
-
-    private fun saveUser(user: User) {
-        val userString = Gson().toJson(user)
-        val editor = context.getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE).edit()
-        editor.putString(Constants.SharedPreferences.USER, userString)
-        editor.apply()
     }
 
     private fun validateInput(): Boolean {
