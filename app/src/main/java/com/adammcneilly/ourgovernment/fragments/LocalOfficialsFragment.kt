@@ -13,6 +13,7 @@ import com.adammcneilly.ourgovernment.adapters.OfficialsAdapter
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.rest.LocalManager
+import com.adammcneilly.ourgovernment.utils.newFragment
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -100,10 +101,7 @@ class LocalOfficialsFragment : BaseFragment() {
             args.putString(ARG_LOCAL_ID, localId)
             args.putSerializable(ARG_LOCAL_TYPE, localType)
 
-            val fragment = LocalOfficialsFragment()
-            fragment.arguments = args
-
-            return fragment
+            return newFragment(::LocalOfficialsFragment, args)
         }
     }
 }

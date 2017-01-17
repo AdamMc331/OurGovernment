@@ -18,6 +18,7 @@ import com.adammcneilly.ourgovernment.models.StateList
 import com.adammcneilly.ourgovernment.models.User
 import com.adammcneilly.ourgovernment.rest.LocalManager
 import com.adammcneilly.ourgovernment.rest.StateManager
+import com.adammcneilly.ourgovernment.utils.newFragment
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -229,12 +230,7 @@ class UserInfoFragment : BaseFragment(), View.OnClickListener {
 
     companion object {
         fun newInstance(): UserInfoFragment {
-            val args = Bundle()
-
-            val fragment = UserInfoFragment()
-            fragment.arguments = args
-
-            return fragment
+            return newFragment(::UserInfoFragment)
         }
     }
 }

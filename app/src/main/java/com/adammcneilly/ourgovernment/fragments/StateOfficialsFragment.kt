@@ -12,6 +12,7 @@ import com.adammcneilly.ourgovernment.adapters.OfficialsAdapter
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.models.CandidateList
 import com.adammcneilly.ourgovernment.rest.OfficialsManager
+import com.adammcneilly.ourgovernment.utils.newFragment
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -83,10 +84,7 @@ class StateOfficialsFragment : BaseFragment() {
             val args = Bundle()
             args.putString(ARG_STATE_ID, stateId)
 
-            val fragment = StateOfficialsFragment()
-            fragment.arguments = args
-
-            return fragment
+            return newFragment(::StateOfficialsFragment, args)
         }
     }
 }
