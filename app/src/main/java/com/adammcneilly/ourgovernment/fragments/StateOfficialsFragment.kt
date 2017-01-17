@@ -22,7 +22,7 @@ import timber.log.Timber
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class StateOfficialsFragment : Fragment() {
+class StateOfficialsFragment : BaseFragment() {
 
     var stateId: String = ""
     var officialsRecyclerView: RecyclerView? = null

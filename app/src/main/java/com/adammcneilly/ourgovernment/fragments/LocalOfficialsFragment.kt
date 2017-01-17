@@ -23,7 +23,7 @@ import timber.log.Timber
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class LocalOfficialsFragment : Fragment() {
+class LocalOfficialsFragment : BaseFragment() {
 
     enum class LocalType {
         COUNTY,

@@ -1,9 +1,7 @@
 package com.adammcneilly.ourgovernment.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import com.adammcneilly.ourgovernment.R
-import com.adammcneilly.ourgovernment.activities.BaseActivity
 import com.adammcneilly.ourgovernment.activities.DrawerActivity
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
@@ -21,7 +18,6 @@ import com.adammcneilly.ourgovernment.models.StateList
 import com.adammcneilly.ourgovernment.models.User
 import com.adammcneilly.ourgovernment.rest.LocalManager
 import com.adammcneilly.ourgovernment.rest.StateManager
-import com.google.gson.Gson
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -32,7 +28,7 @@ import timber.log.Timber
  *
  * Created by adam.mcneilly on 1/10/17.
  */
-class UserInfoFragment : Fragment(), View.OnClickListener {
+class UserInfoFragment : BaseFragment(), View.OnClickListener {
 
     // Managers
     val stateManager = StateManager()
@@ -208,9 +204,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                     user.city = selectedCity
                     user.zipCode = zipCode?.text?.toString()
 
-                    val baseActivity = activity as? BaseActivity
-                    baseActivity?.user = user
-                    baseActivity?.saveUser()
+                    baseActivity.user = user
+                    baseActivity.saveUser()
 
                     val drawerIntent = Intent(context, DrawerActivity::class.java)
                     startActivity(drawerIntent)
