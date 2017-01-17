@@ -95,7 +95,7 @@ class LocalOfficialsFragment : Fragment() {
         private val ARG_LOCAL_ID = "localId"
         private val ARG_LOCAL_TYPE = "localType"
 
-        fun newInstance(localId: String, localType: LocalType): LocalOfficialsFragment {
+        fun newInstance(localId: String?, localType: LocalType): LocalOfficialsFragment {
             val args = Bundle()
             args.putString(ARG_LOCAL_ID, localId)
             args.putSerializable(ARG_LOCAL_TYPE, localType)

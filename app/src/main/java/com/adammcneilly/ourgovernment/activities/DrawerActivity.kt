@@ -1,6 +1,7 @@
 package com.adammcneilly.ourgovernment.activities
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -14,6 +15,8 @@ import com.adammcneilly.ourgovernment.Constants
 import com.adammcneilly.ourgovernment.fragments.LocalOfficialsFragment
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.fragments.StateOfficialsFragment
+import com.adammcneilly.ourgovernment.models.User
+import com.google.gson.Gson
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,17 +50,14 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        val prefs = getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE)
-        val stateId = prefs.getString(Constants.SharedPreferences.USER_STATE, "")
-        val countyId = prefs.getString(Constants.SharedPreferences.USER_COUNTY, "")
-        val cityId = prefs.getString(Constants.SharedPreferences.USER_CITY, "")
+        val user = getUser()
 
         var fragment: Fragment? = null
 
         when (id) {
-            R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(countyId, LocalOfficialsFragment.LocalType.COUNTY)
-            R.id.nav_city_officials -> fragment = LocalOfficialsFragment.newInstance(cityId, LocalOfficialsFragment.LocalType.CITY)
-            R.id.nav_state_officials -> fragment = StateOfficialsFragment.newInstance(stateId)
+            R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(user.county?.localId, LocalOfficialsFragment.LocalType.COUNTY)
+            R.id.nav_city_officials -> fragment = LocalOfficialsFragment.newInstance(user.city?.localId, LocalOfficialsFragment.LocalType.CITY)
+            R.id.nav_state_officials -> fragment = StateOfficialsFragment.newInstance(user.state?.stateId)
             R.id.nav_share -> { }
             R.id.nav_send -> { }
         }
@@ -69,5 +69,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun getUser(): User {
+        val prefs = getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE)
+        val userString = prefs.getString(Constants.SharedPreferences.USER, "")
+        val user = Gson().fromJson(userString, User::class.java)
+        return user
     }
 }

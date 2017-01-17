@@ -79,7 +79,7 @@ class StateOfficialsFragment : Fragment() {
     companion object {
         private val ARG_STATE_ID = "stateId"
 
-        fun newInstance(stateId: String): StateOfficialsFragment {
+        fun newInstance(stateId: String?): StateOfficialsFragment {
             val args = Bundle()
             args.putString(ARG_STATE_ID, stateId)
 

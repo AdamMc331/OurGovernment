@@ -18,8 +18,10 @@ import com.adammcneilly.ourgovernment.activities.DrawerActivity
 import com.adammcneilly.ourgovernment.models.CityList
 import com.adammcneilly.ourgovernment.models.CountyList
 import com.adammcneilly.ourgovernment.models.StateList
+import com.adammcneilly.ourgovernment.models.User
 import com.adammcneilly.ourgovernment.rest.LocalManager
 import com.adammcneilly.ourgovernment.rest.StateManager
+import com.google.gson.Gson
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -200,18 +202,26 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             }
             R.id.submit -> {
                 if (validateInput()) {
-                    val editor = context.getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE).edit()
-                    editor.putString(Constants.SharedPreferences.USER_STATE, selectedState?.stateId)
-                    editor.putString(Constants.SharedPreferences.USER_COUNTY, selectedCounty?.localId)
-                    editor.putString(Constants.SharedPreferences.USER_CITY, selectedCity?.localId)
-                    editor.putString(Constants.SharedPreferences.USER_ZIP, zipCode?.text.toString())
-                    editor.apply()
+                    val user = User()
+                    user.state = selectedState
+                    user.county = selectedCounty
+                    user.city = selectedCity
+                    user.zipCode = zipCode?.text?.toString()
+
+                    saveUser(user)
 
                     val drawerIntent = Intent(context, DrawerActivity::class.java)
                     startActivity(drawerIntent)
                 }
             }
         }
+    }
+
+    private fun saveUser(user: User) {
+        val userString = Gson().toJson(user)
+        val editor = context.getSharedPreferences(Constants.SharedPreferences.PREF_NAME, Context.MODE_PRIVATE).edit()
+        editor.putString(Constants.SharedPreferences.USER, userString)
+        editor.apply()
     }
 
     private fun validateInput(): Boolean {
