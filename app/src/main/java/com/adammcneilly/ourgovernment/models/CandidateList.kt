@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -11,7 +13,11 @@ import java.lang.reflect.Type
  *
  * Created by adam.mcneilly on 12/28/16.
  */
-open class CandidateList : ProxyList<CandidateList.Candidate>() {
+open class CandidateList : ProxyList<CandidateList.Candidate> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source)
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -60,6 +66,10 @@ open class CandidateList : ProxyList<CandidateList.Candidate>() {
                 "}")
     }
 
+    companion object {
+        @JvmField val CREATOR = creator(::CandidateList)
+    }
+
     open class CandidateListDeserializer : JsonDeserializer<CandidateList> {
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CandidateList {
             val result = CandidateList()
@@ -86,7 +96,7 @@ open class CandidateList : ProxyList<CandidateList.Candidate>() {
         }
     }
 
-    open class Candidate : BaseModel() {
+    open class Candidate : BaseModel {
         var candidateId = ""
         var firstName = ""
         var lastName = ""
@@ -128,6 +138,12 @@ open class CandidateList : ProxyList<CandidateList.Candidate>() {
                 return name
             }
 
+        constructor(): super()
+
+        constructor(source: Parcel): super(source) {
+            //TODO:
+        }
+
         override fun equals(other: Any?): Boolean {
             return (other is Candidate)
                     && candidateId == other.candidateId
@@ -165,6 +181,10 @@ open class CandidateList : ProxyList<CandidateList.Candidate>() {
 
         override fun hashCode(): Int {
             return super.hashCode()
+        }
+
+        companion object {
+            @JvmField val CREATOR = creator(::Candidate)
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -11,7 +13,11 @@ import java.lang.reflect.Type
  *
  * Created by adam.mcneilly on 12/26/16.
  */
-open class StateList : ProxyList<StateList.State>() {
+open class StateList : ProxyList<StateList.State> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source)
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -32,9 +38,18 @@ open class StateList : ProxyList<StateList.State>() {
                 "}")
     }
 
-    open class State : BaseModel() {
+    companion object {
+        val CREATOR = creator(::StateList)
+    }
+
+    open class State() : BaseModel() {
         var stateId: String = ""
         var name: String = ""
+
+        constructor(source: Parcel): this() {
+            stateId = source.readString()
+            name = source.readString()
+        }
 
         override fun toString(): String {
             return name
@@ -46,6 +61,15 @@ open class StateList : ProxyList<StateList.State>() {
 
         override fun hashCode(): Int {
             return stateId.hashCode() * name.hashCode()
+        }
+
+        override fun writeToParcel(dest: Parcel?, flags: Int) {
+            dest?.writeString(stateId)
+            dest?.writeString(name)
+        }
+
+        companion object {
+            @JvmField val CREATOR = creator(::State)
         }
     }
 

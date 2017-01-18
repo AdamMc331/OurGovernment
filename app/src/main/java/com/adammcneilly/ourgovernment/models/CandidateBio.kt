@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -12,7 +14,7 @@ import java.util.*
  *
  * Created by adam.mcneilly on 1/1/17.
  */
-class CandidateBio : BaseModel() {
+class CandidateBio : BaseModel {
     // First three elements are used in getBio. Others are for getDetailedBio.
     var candidate = CandidateBio.Candidate()
     var office = CandidateBio.Office()
@@ -22,6 +24,12 @@ class CandidateBio : BaseModel() {
     var political = CandidateBio.Profession()
     var congMembership = CandidateBio.Profession()
     var orgMembership = CandidateBio.Profession()
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source) {
+        //TODO:
+    }
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -90,6 +98,10 @@ class CandidateBio : BaseModel() {
 
     override fun hashCode(): Int {
         return super.hashCode()
+    }
+
+    companion object {
+        @JvmField val CREATOR = creator(::CandidateBio)
     }
 
     open class CandidateBioDeserializer : JsonDeserializer<CandidateBio> {

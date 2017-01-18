@@ -5,7 +5,7 @@ package com.adammcneilly.ourgovernment.models
  *
  * Created by adam.mcneilly on 1/7/17.
  */
-open class Election : BaseModel() {
+open class Election {
     var electionId = ""
     var name = ""
     var stateId = ""
@@ -14,7 +14,7 @@ open class Election : BaseModel() {
     var electionYear = ""
     var stage = Stage()
 
-    open class Stage : BaseModel() {
+    open class Stage {
         var stageId = ""
         var name = ""
         var stateId = ""

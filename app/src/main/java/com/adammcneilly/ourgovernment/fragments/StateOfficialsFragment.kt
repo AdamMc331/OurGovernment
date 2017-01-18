@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ProgressBar
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.adapters.OfficialsAdapter
 import com.adammcneilly.ourgovernment.models.CandidateList
+import com.adammcneilly.ourgovernment.models.StateList
 import com.adammcneilly.ourgovernment.rest.OfficialsManager
 import com.adammcneilly.ourgovernment.utils.newFragment
 import rx.Subscriber
@@ -24,15 +26,21 @@ import timber.log.Timber
  */
 class StateOfficialsFragment : BaseFragment() {
 
-    var stateId: String = ""
+    var state: StateList.State? = null
+        set(value) {
+            field = value
+            stateEditText?.setText(value?.name)
+        }
+
     var officialsRecyclerView: RecyclerView? = null
+    var stateEditText: EditText? = null
     var progressBar: ProgressBar? = null
     val officialsManager = OfficialsManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        stateId = arguments.getString(ARG_STATE_ID, "")
+        state = arguments.getParcelable(ARG_STATE)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,6 +48,9 @@ class StateOfficialsFragment : BaseFragment() {
 
         officialsRecyclerView = view?.findViewById(R.id.official_recycler_view) as? RecyclerView
         progressBar = view?.findViewById(R.id.progress_bar) as? ProgressBar
+        stateEditText = view?.findViewById(R.id.state) as? EditText
+
+        stateEditText?.setText(state?.name)
 
         // Setup recycler view
         val adapter = OfficialsAdapter()
@@ -57,7 +68,7 @@ class StateOfficialsFragment : BaseFragment() {
     private fun getOfficials() {
         progressBar?.visibility = View.VISIBLE
 
-        officialsManager.getStatewideOfficials(stateId)
+        officialsManager.getStatewideOfficials(state?.stateId.orEmpty())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<CandidateList>() {
@@ -77,11 +88,11 @@ class StateOfficialsFragment : BaseFragment() {
     }
 
     companion object {
-        private val ARG_STATE_ID = "stateId"
+        private val ARG_STATE = "state"
 
-        fun newInstance(stateId: String?): StateOfficialsFragment {
+        fun newInstance(state: StateList.State?): StateOfficialsFragment {
             val args = Bundle()
-            args.putString(ARG_STATE_ID, stateId)
+            args.putParcelable(ARG_STATE, state)
 
             return newFragment(::StateOfficialsFragment, args)
         }

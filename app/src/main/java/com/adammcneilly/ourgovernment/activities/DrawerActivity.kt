@@ -49,7 +49,7 @@ class DrawerActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         when (id) {
             R.id.nav_county_officials -> fragment = LocalOfficialsFragment.newInstance(user?.county?.localId, LocalOfficialsFragment.LocalType.COUNTY)
             R.id.nav_city_officials -> fragment = LocalOfficialsFragment.newInstance(user?.city?.localId, LocalOfficialsFragment.LocalType.CITY)
-            R.id.nav_state_officials -> fragment = StateOfficialsFragment.newInstance(user?.state?.stateId)
+            R.id.nav_state_officials -> fragment = StateOfficialsFragment.newInstance(user?.state)
             R.id.nav_share -> { }
             R.id.nav_send -> { }
         }

@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -11,7 +13,11 @@ import java.lang.reflect.Type
  *
  * Created by adam.mcneilly on 12/28/16.
  */
-open class CountyList : ProxyList<CountyList.County>() {
+open class CountyList : ProxyList<CountyList.County> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source)
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -42,6 +48,10 @@ open class CountyList : ProxyList<CountyList.County>() {
                 "}")
     }
 
+    companion object {
+        @JvmField val CREATOR = creator(::CountyList)
+    }
+
     open class CountyListDeserializer : JsonDeserializer<CountyList> {
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): CountyList {
             val result = CountyList()
@@ -68,10 +78,16 @@ open class CountyList : ProxyList<CountyList.County>() {
         }
     }
 
-    open class County : BaseModel() {
+    open class County : BaseModel {
         var localId = ""
         var name = ""
         var url = ""
+
+        constructor(): super()
+
+        constructor(source: Parcel): super(source) {
+            //TODO:
+        }
 
         override fun toString(): String {
             return name
@@ -86,6 +102,10 @@ open class CountyList : ProxyList<CountyList.County>() {
 
         override fun hashCode(): Int {
             return localId.hashCode() * name.hashCode() * url.hashCode()
+        }
+
+        companion object {
+            @JvmField val CREATOR = creator(::County)
         }
     }
 }

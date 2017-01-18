@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -11,7 +13,11 @@ import java.lang.reflect.Type
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel>() {
+class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source)
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -37,6 +43,10 @@ class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel>() {
                         "]" +
                     "}" +
                 "}")
+    }
+
+    companion object {
+        @JvmField val CREATOR = creator(::OfficeLevelList)
     }
 
     open class OfficeLevelListDeserializer : JsonDeserializer<OfficeLevelList> {
@@ -66,9 +76,15 @@ class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel>() {
         }
     }
 
-    open class OfficeLevel : BaseModel() {
+    open class OfficeLevel : BaseModel {
         var officeLevelId = ""
         var name = ""
+
+        constructor(): super()
+
+        constructor(source: Parcel): super(source) {
+            //TODO:
+        }
 
         override fun equals(other: Any?): Boolean {
             return (other is OfficeLevel) && officeLevelId == other.officeLevelId && name == other.name
@@ -76,6 +92,10 @@ class OfficeLevelList : ProxyList<OfficeLevelList.OfficeLevel>() {
 
         override fun hashCode(): Int {
             return officeLevelId.hashCode() * name.hashCode()
+        }
+
+        companion object {
+            @JvmField val CREATOR = creator(::OfficeLevelList)
         }
     }
 }

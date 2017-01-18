@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import com.adammcneilly.ourgovernment.utils.creator
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -11,7 +13,11 @@ import java.lang.reflect.Type
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch>() {
+class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source)
 
     override fun getSuccessJson(): List<String> {
         return listOf(
@@ -37,6 +43,10 @@ class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch>() {
                         "]" +
                     "}" +
                 "}")
+    }
+
+    companion object {
+        @JvmField val CREATOR = creator(::OfficeBranchList)
     }
 
     open class OfficeBranchListDeserializer : JsonDeserializer<OfficeBranchList> {
@@ -66,9 +76,15 @@ class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch>() {
         }
     }
 
-    open class OfficeBranch : BaseModel() {
+    open class OfficeBranch : BaseModel {
         var officeBranchId = ""
         var name = ""
+
+        constructor(): super()
+
+        constructor(source: Parcel): super(source) {
+            //TODO:
+        }
 
         override fun equals(other: Any?): Boolean {
             return (other is OfficeBranch) && name == other.name && officeBranchId == other.officeBranchId
@@ -76,6 +92,10 @@ class OfficeBranchList : ProxyList<OfficeBranchList.OfficeBranch>() {
 
         override fun hashCode(): Int {
             return officeBranchId.hashCode() * name.hashCode()
+        }
+
+        companion object {
+            @JvmField val CREATOR = creator(::OfficeBranch)
         }
     }
 }

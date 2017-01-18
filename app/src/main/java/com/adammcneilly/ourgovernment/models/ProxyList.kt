@@ -1,5 +1,7 @@
 package com.adammcneilly.ourgovernment.models
 
+import android.os.Parcel
+import android.os.Parcelable
 import java.util.*
 
 /**
@@ -7,7 +9,16 @@ import java.util.*
  *
  * Created by adam.mcneilly on 1/8/17.
  */
-open class ProxyList<T: BaseModel> : BaseModel(), MutableList<T> {
+open class ProxyList<T: BaseModel> : BaseModel, MutableList<T> {
+
+    constructor(): super()
+
+    constructor(source: Parcel): super(source) {
+        if(source.readInt() != 0) {
+            source.readList(items, javaClass.classLoader)
+        }
+    }
+
     val items: ArrayList<T> = ArrayList()
 
     override fun add(element: T): Boolean {
@@ -99,5 +110,20 @@ open class ProxyList<T: BaseModel> : BaseModel(), MutableList<T> {
 
     override fun hashCode(): Int {
         return items.hashCode()
+    }
+
+    companion object {
+        // Can't use our inline fun in ParcelableUtils because this is generic.
+        //TODO: Create a generic one.
+        @JvmField
+        val CREATOR: Parcelable.Creator<ProxyList<*>> = object : Parcelable.Creator<ProxyList<*>> {
+            override fun createFromParcel(source: Parcel): ProxyList<*> {
+                return ProxyList<BaseModel>(source)
+            }
+
+            override fun newArray(size: Int): Array<ProxyList<*>?> {
+                return kotlin.arrayOfNulls(size)
+            }
+        }
     }
 }
