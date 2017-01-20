@@ -36,6 +36,9 @@ open class BaseActivity: AppCompatActivity() {
         saveUser()
     }
 
+    /**
+     * Saves a JSON string representation of the user to shared preferences.
+     */
     fun saveUser() {
         val editor = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
         if (user != null) {
