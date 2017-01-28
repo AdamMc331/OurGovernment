@@ -1,84 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/single_margin"
-            android:text="@string/user_info_explanation" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/half_margin">
-
-            <EditText
-                android:id="@+id/state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="@string/state" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/half_margin">
-
-            <EditText
-                android:id="@+id/county"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:enabled="false"
-                android:focusable="false"
-                android:hint="@string/county" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/half_margin">
-
-            <EditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:enabled="false"
-                android:focusable="false"
-                android:hint="@string/city" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/half_margin">
-
-            <EditText
-                android:id="@+id/zip_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zip_code" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/single_margin"
-            android:text="@string/submit" />
-
-    </LinearLayout>
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:padding="16dp">
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -86,4 +11,102 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/single_margin"
+                android:text="@string/user_info_explanation"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:background="@android:color/transparent"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="@string/state"
+                    android:textColor="@android:color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:background="@android:color/transparent"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/county"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="@string/county"
+                    android:textColor="@android:color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:background="@android:color/transparent"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="@string/city"
+                    android:textColor="@android:color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:background="@android:color/transparent"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/zip_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zip_code"
+                    android:textColor="@android:color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:background="@android:color/white"
+                android:text="@string/submit"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
