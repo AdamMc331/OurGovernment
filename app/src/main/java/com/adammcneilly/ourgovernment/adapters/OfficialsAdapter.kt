@@ -1,10 +1,11 @@
 package com.adammcneilly.ourgovernment.adapters
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.adammcneilly.CoreRecyclerViewAdapter
+import com.adammcneilly.CoreViewHolder
 import com.adammcneilly.ourgovernment.R
 import com.adammcneilly.ourgovernment.models.CandidateList
 
@@ -13,34 +14,19 @@ import com.adammcneilly.ourgovernment.models.CandidateList
  *
  * Created by adam.mcneilly on 1/13/17.
  */
-class OfficialsAdapter : RecyclerView.Adapter<OfficialsAdapter.OfficialViewHolder>() {
-
-    var officials: CandidateList = CandidateList()
+class OfficialsAdapter : CoreRecyclerViewAdapter<CandidateList.Candidate, OfficialsAdapter.OfficialViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): OfficialViewHolder {
         return OfficialViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.list_item_official, parent, false))
     }
 
-    override fun onBindViewHolder(holder: OfficialViewHolder?, position: Int) {
-        holder?.bindOfficial(officials[position])
-    }
-
-    override fun getItemCount(): Int {
-        return officials.size
-    }
-
-    fun swapItems(candidateList: CandidateList?) {
-        this.officials = candidateList ?: CandidateList()
-        notifyDataSetChanged()
-    }
-
-    class OfficialViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class OfficialViewHolder(view: View) : CoreViewHolder<CandidateList.Candidate>(view) {
         val officialName = view.findViewById(R.id.official_name) as? TextView
         val officialTitle = view.findViewById(R.id.official_title) as? TextView
 
-        fun bindOfficial(official: CandidateList.Candidate) {
-            officialName?.text = official.fullName
-            officialTitle?.text = official.title
+        override fun bindItem(item: CandidateList.Candidate?) {
+            officialName?.text = item?.fullName
+            officialTitle?.text = item?.title
         }
     }
 }
